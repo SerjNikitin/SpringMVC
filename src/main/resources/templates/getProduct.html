@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getProduct</title>
+</head>
+<body>
+<table>
+    <thead>
+    <th>id</th>
+    <th>title</th>
+    <th>price</th>
+    </thead>
+    <tbody>
+    <tr th:text="${product}">
+        <td th:text="${product.id}"/>
+        <td th:text="${product.title}"/>
+        <td th:text="${product.price}"/>
+    </tr>
+    </tbody>
+</table>
+
+<h3>
+    <form action="http://localhost:8080/product">
+        <input type="submit" value="back to products">
+    </form>
+</h3>
+
+</body>
+</html>

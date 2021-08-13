@@ -18,7 +18,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/add-product")
-    private String addForm(Model model) {
+    private String addFormAddProduct(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "addProduct";
@@ -37,9 +37,25 @@ public class ProductController {
         return "product";
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    private Product getProductById(@PathVariable(value = "id") Integer id) {
-        return productService.findProductId(id).get();
+    //TODO:поиск по id
+//    @GetMapping("/{id}")
+//    @ResponseBody
+//    private Product getProductById(@PathVariable(value = "id") Integer id) {
+//       return productService.findProductId(id).get();
+//    }
+
+    @GetMapping("/id")
+    private String addFormGetProductById(Model model) {
+        Product product = new Product();
+        model.addAttribute("product", product);
+        return "productId";
     }
+
+    @PostMapping ("/id")
+    private String getProductById(Integer id, Model model) {
+        Product product = productService.findProductId(id).get();
+        model.addAttribute("product", product);
+        return "getProduct";
+    }
+
 }
