@@ -15,10 +15,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-//    public ProductServiceImpl(@Qualifier("productRepositoryImpl") ProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//    }
-
     @Override
     public List<Product> findProducts() {
         return productRepository.findProducts();

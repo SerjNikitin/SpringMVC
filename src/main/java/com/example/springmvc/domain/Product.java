@@ -2,6 +2,7 @@ package com.example.springmvc.domain;
 
 import lombok.*;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -12,6 +13,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "{"+id+", "+ title+", "+price+"}";
+        return "{" + id + ", " + title + ", " + price + "}";
     }
 }

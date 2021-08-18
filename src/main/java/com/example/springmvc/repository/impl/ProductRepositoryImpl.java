@@ -14,9 +14,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private List<Product> products;
 
-    private int id=5;
-
-    //TODO:можно и просто конструктор
     @PostConstruct
     private void init() {
         products = new ArrayList<>();
@@ -44,6 +41,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void addProduct(Product product) {
+        int size = products.size()-1;
+        int id = products.get(size).getId();
         id++;
         product.setId(id);
         products.add(product);
