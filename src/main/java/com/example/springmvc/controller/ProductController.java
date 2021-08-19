@@ -9,16 +9,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+
     private ProductService productService;
 
     @GetMapping("/add-product")
-    private String addFormAddProduct(Model model) {
+    private String addFormToAddProduct(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "addProduct";
@@ -57,5 +57,4 @@ public class ProductController {
         model.addAttribute("product", product);
         return "getProduct";
     }
-
 }
