@@ -7,8 +7,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
@@ -18,16 +23,20 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/add-product")
-    private String addFormToAddProduct(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+    public String addFormToAddProduct(Model model, @ModelAttribute("error") String error) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("error", error);
         return "addProduct";
     }
 
     @PostMapping("/add-product")
-    private String addProduct(@ModelAttribute Product product) {
+    private RedirectView addProduct(@ModelAttribute Product product, RedirectAttributes attributes) {
+        if (product.getTitle().isEmpty()) {
+            attributes.addFlashAttribute("error", "Title не может быть пустым");
+            return new RedirectView("/product/add-product");
+        }
         productService.add(product);
-        return "redirect:/product";
+        return new RedirectView("/product");
     }
 
     @GetMapping
@@ -37,24 +46,23 @@ public class ProductController {
         return "product";
     }
 
-    //TODO:поиск по id
-//    @GetMapping("/{id}")
-//    @ResponseBody
-//    private Product getProductById(@PathVariable(value = "id") Integer id) {
-//       return productService.findProductId(id).get();
-//    }
+    @GetMapping("/findById")
+    public String filterById(@RequestParam Integer id, Model model) {
+//        Optional<Product> productById = productService.findProductId(Integer.parseInt(id));
+        Optional<Product> productById = productService.findProductId(id);
 
-    @GetMapping("/id")
-    private String addFormGetProductById(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
-        return "productId";
+        if (productById.isPresent()) {
+            model.addAttribute("products", Collections.singletonList(productById.get()));
+        } else {
+            model.addAttribute("products", Collections.emptyList());
+        }
+        return "getProduct";
     }
 
-    @PostMapping ("/id")
-    private String getProductById(Integer id, Model model) {
-        Product product = productService.findProductId(id).get();
-        model.addAttribute("product", product);
-        return "getProduct";
+    @ExceptionHandler(Exception.class)
+    public String handleError(HttpServletRequest req, Exception ex) {
+        System.err.println("Request: " + req.getRequestURL() + " raised " + ex);
+
+        return "error";
     }
 }

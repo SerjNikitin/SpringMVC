@@ -19,7 +19,7 @@ public class Product {
     @Column(name = "title")
     private String title;
     @Column(name = "price")
-    private int price;
+    private Integer price;
 
     public Product(String title, int price) {
         this.title = title;
