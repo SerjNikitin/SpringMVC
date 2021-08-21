@@ -15,11 +15,16 @@
     <th>price</th>
     </thead>
     <tbody>
-    <tr th:each="p : ${products}">
-        <td th:text="${p.id}"/>
-        <td th:text="${p.title}"/>
-        <td th:text="${p.price}"/>
+    <tr th:text="${product}">
+        <td th:text="${product.id}"/>
+        <td th:text="${product.title}"/>
+        <td th:text="${product.price}"/>
     </tr>
+<!--    <tr th:each="p : ${products}">-->
+<!--        <td th:text="${p.id}"/>-->
+<!--        <td th:text="${p.title}"/>-->
+<!--        <td th:text="${p.price}"/>-->
+<!--    </tr>-->
     </tbody>
 </table>
 

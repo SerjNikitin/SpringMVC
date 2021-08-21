@@ -31,9 +31,8 @@ class ProductControllerTest extends SpringMvcApplicationTests {
         Mockito.when(productService.findProducts())
                 .thenReturn(Collections.singletonList(product));
 
-
-        Mockito.when(productService.findProductId(1)).thenReturn(Optional.of(product));
-
+        Mockito.when(productService.findProductId(1))
+                .thenReturn(Optional.of(product));
     }
 
     @Test
@@ -43,12 +42,10 @@ class ProductControllerTest extends SpringMvcApplicationTests {
                 .andExpect(view().name("product"))
                 .andExpect(model().attribute("products",
                         Collections.singletonList(new Product(1, "orange", 22))));
-
     }
 
     @Test
     void addFormToAddProduct() throws Exception {
-
         Product product = new Product();
         mockMvc.perform(get("/product/add-product"))
                 .andExpect(status().isOk())
@@ -81,40 +78,19 @@ class ProductControllerTest extends SpringMvcApplicationTests {
         Product product = new Product(1, "orange", 22);
         mockMvc.perform(get("/product/findById?id=1"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("products", Collections.singletonList(product)))
+                .andExpect(model().attribute("product", product))
                 .andExpect(view().name("getProduct"));
     }
 
-    //TODO внизу которые не заработали
-
     @Test
     void correctAddProducts() throws Exception {
-        Product product = new Product(1, "title", 20);
-
-        mockMvc.perform(post("/product/add-product")
+        Product product = new Product(1, "orange", 22);
+        mockMvc.perform(post("/product/add-product?")
                         .param("id", "1")
-                        .param("name", "orange")
+                        .param("title", "orange")
                         .param("price", "22"))
-                        .andExpect(status().isOk())
-                .andExpect(view().name("product"));
-
-
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/product"));
-
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("product"));
-
-//        Mockito.verify(productService, Mockito.times(1)).add(product);
-    }
-
-
-    @Test
-    void addProduct() throws Exception {
-        mockMvc.perform(post("/product/add-product"))
-//                .andExpect(status().isOk())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product"));
-//                .andExpect(view().name("redirect:/product"));
+        Mockito.verify(productService, Mockito.times(1)).add(product);
     }
 }

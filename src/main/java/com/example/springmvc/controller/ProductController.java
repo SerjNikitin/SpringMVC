@@ -48,13 +48,13 @@ public class ProductController {
 
     @GetMapping("/findById")
     public String filterById(@RequestParam Integer id, Model model) {
-//        Optional<Product> productById = productService.findProductId(Integer.parseInt(id));
         Optional<Product> productById = productService.findProductId(id);
-
         if (productById.isPresent()) {
-            model.addAttribute("products", Collections.singletonList(productById.get()));
-        } else {
-            model.addAttribute("products", Collections.emptyList());
+            Product product = productById.get();
+            model.addAttribute("product",product);
+//            model.addAttribute("products", Collections.singletonList(productById.get()));
+//        } else {
+//            model.addAttribute("product", Collections.emptyList());
         }
         return "getProduct";
     }
