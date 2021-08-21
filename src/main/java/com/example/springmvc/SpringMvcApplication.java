@@ -27,7 +27,7 @@ public class SpringMvcApplication {
     private static void createProduct() {
         try (Session session = factory.getCurrentSession()) {
             session.beginTransaction();
-            Product product = new Product("vine", 212);
+            Product product = new Product("привет", 212);
             session.save(product);
             session.getTransaction().commit();
         }
@@ -43,7 +43,7 @@ public class SpringMvcApplication {
     }
 
     private static void updateProductById() {
-        try (Session session=factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             session.beginTransaction();
             Product product = session.get(Product.class, 1);
             product.setPrice(100);
@@ -52,7 +52,7 @@ public class SpringMvcApplication {
     }
 
     private static void deleteProductById() {
-        try (Session session=factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             session.beginTransaction();
             Product product = session.get(Product.class, 1);
             session.delete(product);
@@ -61,10 +61,10 @@ public class SpringMvcApplication {
     }
 
     private static void getCollectionProduct() {
-        try (Session session=factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             session.beginTransaction();
             List<Product> resultList = session.createQuery(
-                    "select p from Product p where p.price<9000",Product.class).getResultList();
+                    "select p from Product p where p.price<9000", Product.class).getResultList();
             System.out.println(resultList);
             session.getTransaction().commit();
         }
@@ -76,13 +76,13 @@ public class SpringMvcApplication {
 //                "jdbc:postgresql://localhost:5435/spring", "postgres", "postgrespass").load();
 //        flyway.migrate();
 
-        SpringApplication.run(SpringMvcApplication.class, args);
-//        try {
-//            init();
-//
+//        SpringApplication.run(SpringMvcApplication.class, args);
+        try {
+            init();
+            createProduct();
 //          getCollectionProduct();
-//        } finally {
-//            shutdown();
-//        }
+        } finally {
+            shutdown();
+        }
     }
 }
