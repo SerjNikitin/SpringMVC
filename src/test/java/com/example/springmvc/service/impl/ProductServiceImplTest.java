@@ -32,10 +32,10 @@ class ProductServiceImplTest extends SpringMvcApplicationTests {
         when(productRepository.findProducts())
                 .thenReturn(Collections.singletonList(product));
 
-        when(productRepository.findProductId(1))
+        when(productRepository.findProductById(1))
                 .thenReturn(Optional.of(product));
 
-        when(productRepository.findProductId(6))
+        when(productRepository.findProductById(6))
                 .thenReturn(java.util.Optional.empty());
     }
 
@@ -48,8 +48,8 @@ class ProductServiceImplTest extends SpringMvcApplicationTests {
     @Test
     void findProductId() {
         Product product = new Product(1, "orange", 22);
-        Assertions.assertTrue(productService.findProductId(1).isPresent());
-        Assertions.assertEquals(product, productService.findProductId(1).get());
+        Assertions.assertTrue(productService.findProductById(1).isPresent());
+        Assertions.assertEquals(product, productService.findProductById(1).get());
     }
 
     @Test

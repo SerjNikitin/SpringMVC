@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,7 @@ public class ProductController {
             attributes.addFlashAttribute("error", "Title не может быть пустым");
             return new RedirectView("/product/add-product");
         }
-        productService.add(product);
+        productService.saveProduct(product);
         return new RedirectView("/product");
     }
 
@@ -43,15 +42,15 @@ public class ProductController {
     private String getAllProduct(Model model) {
         List<Product> products = productService.findProducts();
         model.addAttribute("products", products);
-        return "product";
+        return "getAllProduct";
     }
 
     @GetMapping("/findById")
     public String filterById(@RequestParam Integer id, Model model) {
-        Optional<Product> productById = productService.findProductId(id);
+        Optional<Product> productById = productService.findProductById(id);
         if (productById.isPresent()) {
             Product product = productById.get();
-            model.addAttribute("product",product);
+            model.addAttribute("product", product);
 //            model.addAttribute("products", Collections.singletonList(productById.get()));
 //        } else {
 //            model.addAttribute("product", Collections.emptyList());
@@ -62,7 +61,34 @@ public class ProductController {
     @ExceptionHandler(Exception.class)
     public String handleError(HttpServletRequest req, Exception ex) {
         System.err.println("Request: " + req.getRequestURL() + " raised " + ex);
-
         return "error";
+    }
+
+    @GetMapping("/delete/{id}")
+    public RedirectView deleteProductById(@PathVariable Integer id) {
+        productService.deleteProductById(id);
+        return new RedirectView("/product");
+    }
+
+    @GetMapping("/update/{id}")
+    public String openViewUpdateProductById(@PathVariable Integer id,
+                                            @ModelAttribute("error") String error, Model model) {
+        Optional<Product> productById = productService.findProductById(id);
+        Product product = productById.get();
+        model.addAttribute("product", product);
+        model.addAttribute("error", error);
+        return "updateProduct";
+    }
+
+    @PostMapping("/update/{id}")
+    public RedirectView updateProductById(@PathVariable Integer id,
+                                          @ModelAttribute Product product, RedirectAttributes attributes) {
+        if (product.getTitle().isEmpty()) {
+            attributes.addFlashAttribute("error", "Title не может быть пустым");
+            return new RedirectView("/product/update/{id}");
+        }
+        productService.updateProductById(id, product.getTitle(), product.getPrice());
+        return new RedirectView("/product");
+
     }
 }

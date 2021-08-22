@@ -21,13 +21,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> findProductId(int id) {
-        return productRepository.findProductId(id);
+    public Optional<Product> findProductById(Integer id) {
+        return productRepository.findProductById(id);
     }
 
     @Override
-    public void add(Product product) {
-        productRepository.addProduct(product);
+    public void saveProduct(Product product) {
+        productRepository.saveProduct(product);
+    }
+
+    @Override
+    public void updateProductById(Integer id, String title, Integer price) {
+        productRepository.updateProductById(id,title,price);
+    }
+
+    @Override
+    public void deleteProductById(Integer id) {
+        productRepository.deleteProductById(id);
     }
 }
 

@@ -31,7 +31,7 @@ class ProductControllerTest extends SpringMvcApplicationTests {
         Mockito.when(productService.findProducts())
                 .thenReturn(Collections.singletonList(product));
 
-        Mockito.when(productService.findProductId(1))
+        Mockito.when(productService.findProductById(1))
                 .thenReturn(Optional.of(product));
     }
 
@@ -49,7 +49,7 @@ class ProductControllerTest extends SpringMvcApplicationTests {
         Product product = new Product();
         mockMvc.perform(get("/product/add-product"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("addProduct"))
+                .andExpect(view().name("saveProduct"))
                 .andExpect(model().attribute("product", product));
     }
 
@@ -69,7 +69,7 @@ class ProductControllerTest extends SpringMvcApplicationTests {
                         .param("title", "")
                         .param("price", "20"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/product/add-product"))
+                .andExpect(redirectedUrl("/product/saveProduct-product"))
                 .andExpect(flash().attribute("error", "Title не может быть пустым"));
     }
 
@@ -91,6 +91,6 @@ class ProductControllerTest extends SpringMvcApplicationTests {
                         .param("price", "22"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product"));
-        Mockito.verify(productService, Mockito.times(1)).add(product);
+        Mockito.verify(productService, Mockito.times(1)).saveProduct(product);
     }
 }
