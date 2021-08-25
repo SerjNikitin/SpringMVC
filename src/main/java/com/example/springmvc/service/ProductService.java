@@ -1,5 +1,6 @@
 package com.example.springmvc.service;
 
+import com.example.springmvc.domain.Category;
 import com.example.springmvc.domain.Product;
 
 import java.util.List;
@@ -13,7 +14,9 @@ public interface ProductService {
 
     void saveProduct(Product product);
 
-    void updateProductById(Integer id, String title, Integer price);
+    void updateProductById(Integer id, Product product);
 
     void deleteProductById(Integer id);
+
+    List<Product> findProductByCategoryId(Integer categoryId);
 }

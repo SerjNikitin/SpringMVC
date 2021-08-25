@@ -11,15 +11,20 @@ import javax.persistence.*;
 @Table(name = "product", schema = "market")
 public class Product {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "price")
     private Integer price;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Product(String title, int price) {
         this.title = title;
@@ -28,6 +33,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "{" + id + ", " + title + ", " + price + "}";
+        return "{" + id + ", " + title + ", " + price + category+"}";
     }
 }

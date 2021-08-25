@@ -1,5 +1,6 @@
 package com.example.springmvc.repository;
 
+import com.example.springmvc.domain.Category;
 import com.example.springmvc.domain.Product;
 
 import java.util.List;
@@ -12,8 +13,10 @@ public interface ProductRepository {
 
     void saveProduct(Product product);
 
-    void updateProductById(Integer id, String title, Integer price);
+    void updateProductById(Integer id, Product product);
 
     void deleteProductById(Integer id);
+
+    List<Product> findProductsByCategoryId(Integer categoryId);
 
 }

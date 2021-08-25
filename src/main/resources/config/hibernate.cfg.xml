@@ -14,5 +14,6 @@
         <property name="current_session_context_class">thread</property>
 <!--        <property name="hbm2ddl.auto">create</property>-->
         <mapping class="com.example.springmvc.domain.Product" />
+        <mapping class="com.example.springmvc.domain.Category" />
     </session-factory>
 </hibernate-configuration>

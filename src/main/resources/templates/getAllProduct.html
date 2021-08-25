@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>product</title>
@@ -9,6 +9,11 @@
 </head>
 <body>
 <div class="container m-4 p-4">
+    <h3>
+        <form action="http://localhost:8080/product">
+            <input class="btn btn-info" type="submit" value="back to products">
+        </form>
+    </h3>
 
     <div class="row">
         <h1>Продукты</h1>
@@ -17,27 +22,26 @@
             <th>id</th>
             <th>Наименование</th>
             <th>Цена</th>
+            <th>Категория</th>
             </thead>
-
             <tbody class="bar">
             <tr th:each="p : ${products}" class="align-middle">
                 <td th:text="${p.id}"></td>
                 <td th:text="${p.title}"></td>
                 <td th:text="${p.price}"></td>
+                <td th:text="${p.category.title}"></td>
                 <td><a class="btn btn-outline-info" th:href="@{/product/update/{id}(id=${p.id})}">Обновить</a></td>
                 <td><a class="btn btn-outline-danger" th:href="@{/product/delete/{id}(id=${p.id})}">Удалить</a>
             </tr>
             </tbody>
-
         </table>
     </div>
 
     <table class="table">
-
         <div class="row">
-            <h3>Поиск продуктов по id</h3>
             <div class="container m-4 p-4">
                 <div class="col-md-4">
+                    <h4>Поиск продуктов по id</h4>
                     <form class="mt-2 mb-2" method="get" th:action="@{product/findById}">
                         <div class="row">
                             <div class="col-md-8">
@@ -51,15 +55,53 @@
                 </div>
             </div>
 
-            <h3>
-                <form action="http://localhost:8080/product/add-product">
-                    <input class="btn btn-info" type="submit" value="Добавить продукт">
-                </form>
-            </h3>
+            <div class="row">
+                <h3>
+                    <form action="http://localhost:8080/product/create-category">
+                        <input class="btn btn-info" type="submit" value="Добавить категорию">
+                    </form>
+                </h3>
+                <h3>
+                    <form action="http://localhost:8080/product/add-product">
+                        <input class="btn btn-info" type="submit" value="Добавить продукт">
+                    </form>
+                </h3>
+
+                <div class="col-md-4">
+                    <h4>Фильтр по категории</h4>
+                    <form method="get" th:action="@{/product/category}">
+                        <div class="row">
+                            <select class="form-control" th:name="categoryId">
+                                <option th:each="c : ${category}" th:selected="(${c.id} == *{categoryId})"
+                                        th:text="${c.title}"
+                                        th:value="${c.id}"></option>
+                            </select>
+                            <div class="col-md-4">
+                                <button class="btn btn-outline-info" type="submit">Поиск</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!--                <div class="container m-4 p-4">-->
+                <!--                    <h4>Добавить категорию</h4>-->
+                <!--                    <div class="col-md-4">-->
+                <!--                        <form class="mt-2 mb-2" method="post" th:action="@{product/createCategory}">-->
+                <!--                            <div class="row">-->
+                <!--                                <div class="col-md-8">-->
+                <!--                                    <input class="form-control" placeholder="Имя категории" th:name="title" type="text">-->
+                <!--                                </div>-->
+
+                <!--                                <div class="col-md-4">-->
+                <!--                                    <button class="btn btn-outline-info" type="submit">Добавить</button>-->
+                <!--                                </div>-->
+                <!--                            </div>-->
+                <!--                        </form>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
         </div>
     </table>
-
-
 </div>
 </body>
 </html>

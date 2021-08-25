@@ -1,5 +1,6 @@
 package com.example.springmvc.service.impl;
 
+import com.example.springmvc.domain.Category;
 import com.example.springmvc.domain.Product;
 import com.example.springmvc.repository.ProductRepository;
 import com.example.springmvc.service.ProductService;
@@ -31,13 +32,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProductById(Integer id, String title, Integer price) {
-        productRepository.updateProductById(id,title,price);
+    public void updateProductById(Integer id,Product product) {
+        productRepository.updateProductById(id, product);
     }
 
     @Override
     public void deleteProductById(Integer id) {
         productRepository.deleteProductById(id);
+    }
+
+    @Override
+    public List<Product> findProductByCategoryId(Integer categoryId) {
+        return productRepository.findProductsByCategoryId(categoryId);
     }
 }
 

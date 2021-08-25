@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +24,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         try (Session session = factory.getSession()) {
             session.beginTransaction();
             List<Product> resultList = session.createQuery(
-                    "select p from Product p", Product.class).getResultList();
+                    "select p from Product p ", Product.class).getResultList();
             session.getTransaction().commit();
             if (resultList.size() != 0) {
                 return resultList;
@@ -39,13 +41,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             session.getTransaction().commit();
             return Optional.ofNullable(product);
         }
-//            if (product != (null)) {
-//                Optional<Product> optionalProduct = Optional.of(product);
-//                session.getTransaction().commit();
-//                return optionalProduct;
-//            }
-//        }
-//        return Optional.empty();
     }
 
 
@@ -59,14 +54,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void updateProductById(Integer id, String title, Integer price) {
+    public void updateProductById(Integer id, Product product) {
         try (Session session = factory.getSession()) {
             session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            if (product != (null)) {
-                product.setTitle(title);
-                product.setPrice(price);
-            }
+            session.update(product);
             session.getTransaction().commit();
         }
     }
@@ -80,6 +71,21 @@ public class ProductRepositoryImpl implements ProductRepository {
                 session.delete(product);
             }
             session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<Product> findProductsByCategoryId(Integer categoryId) {
+        try (Session session = factory.getSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("SELECT p FROM Product p WHERE category.id = :category_id", Product.class);
+            query.setParameter("category_id", categoryId);
+            List<Product> resultList = query.getResultList();
+            ArrayList<Product> products = new ArrayList<>(resultList);
+            session.getTransaction().commit();
+            return products;
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
     }
 }
