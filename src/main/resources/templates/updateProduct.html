@@ -11,9 +11,8 @@
 <h3 style="color: red" th:text="${error}"></h3>
 <div>
     <div>
-        <form class="mt-2 mb-2" method="post" th:action="@{/product/update/{id}(id = ${product.id})}"
-              th:object="${product}">
-            <form th:action="@{/product/update/{id}(id = ${product.id})}" method="post" class="mt-2 mb-2">
+            <form th:action="@{/product/update/{id}(id = ${product.id})}" method="post" class="mt-2 mb-2"
+                  th:object="${product}">
                 <div class="row">
                     <div class="col-md-3">
                         <input type="text" class="form-control" placeholder="Наименование" th:field="*{title}"
@@ -35,7 +34,6 @@
                     </div>
                 </div>
             </form>
-        </form>
     </div>
     <form action="http://localhost:8080/product">
         <input type="submit" value="back to products">

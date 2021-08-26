@@ -30,7 +30,7 @@
                 <td th:text="${p.title}"></td>
                 <td th:text="${p.price}"></td>
                 <td th:text="${p.category.title}"></td>
-                <td><a class="btn btn-outline-info" th:href="@{/product/update/{id}(id=${p.id})}">Обновить</a></td>
+                <td><a class="btn btn-outline-info" th:href="@{/product/update/{id}(id=${p.id})}">Обновить</a>
                 <td><a class="btn btn-outline-danger" th:href="@{/product/delete/{id}(id=${p.id})}">Удалить</a>
             </tr>
             </tbody>
