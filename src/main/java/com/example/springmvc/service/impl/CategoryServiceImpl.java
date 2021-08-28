@@ -6,6 +6,7 @@ import com.example.springmvc.repository.CategoryRepository;
 import com.example.springmvc.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,24 +19,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findCategory() {
-        return categoryRepository.findCategory();
+        return categoryRepository.findAll();
     }
 
-//    @Override
-//    public void createCategory(Category category) {
-//        categoryRepository.createCategory(category);
-//    }
-
+    @Transactional
     @Override
     public void addCategory(String title) {
         Optional<Category> categoryByTitle = categoryRepository.findCategoryByTitle(title);
         if (categoryByTitle.isEmpty()){
-            categoryRepository.createCategory(new Category(title));
+            categoryRepository.save(new Category(title));
         }
     }
 
     @Override
     public Optional<Category> findCategoryById(Integer id) {
-        return categoryRepository.findCategoryById(id);
+        return categoryRepository.findById(id);
     }
 }

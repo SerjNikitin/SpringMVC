@@ -22,11 +22,17 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 
     public Product(String title, int price) {
+        this.title = title;
+        this.price = price;
+    }
+
+    public Product(Integer id, String title, Integer price) {
+        this.id = id;
         this.title = title;
         this.price = price;
     }

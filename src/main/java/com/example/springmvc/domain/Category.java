@@ -20,11 +20,16 @@ public class Category {
 
     @Column(name = "title")
     private String title;
-    @OneToMany(mappedBy = "category",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category",  cascade = CascadeType.ALL)
     private List<Product> products;
 
     public Category(String category) {
         this.title=category;
+    }
+
+    public Category(Integer id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping("/add-product")
-    private RedirectView addProduct(@RequestParam String title, @RequestParam String price,
+    public RedirectView addProduct(@RequestParam String title, @RequestParam String price,
                                     @RequestParam Integer categoryId, RedirectAttributes attributes) {
         if (title.isEmpty() || price.isEmpty()) {
             attributes.addFlashAttribute("error", "Заполните все поля");
@@ -92,7 +92,7 @@ public class ProductController {
     }
 
     @PostMapping("/update/{id}")
-    public RedirectView updateProductById(@PathVariable Integer id, @RequestParam Integer categoryId,
+    public RedirectView updateProductById(@RequestParam Integer categoryId,
                                           @ModelAttribute Product product, RedirectAttributes attributes) {
         if (product.getTitle().isEmpty()) {
             attributes.addFlashAttribute("error", "Title не может быть пустым");
@@ -101,31 +101,22 @@ public class ProductController {
         Optional<Category> category = categoryService.findCategoryById(categoryId);
         if (category.isPresent()) {
             product.setCategory(category.get());
-            productService.updateProductById(id, product);
+            productService.updateProductById(product);
         }
         return new RedirectView("/product");
     }
 
-    @GetMapping("/create-category")
-    public String addViewToCreateCategory(Model model) {
-        model.addAttribute("category", new Category());
-        return "createCategory";
-    }
-
-    @PostMapping("/create-category")
-    public String createCategory(@RequestParam String title) {
-        categoryService.addCategory(title);
-        return "redirect:/product";
-    }
-
-    @GetMapping("/category")
-    public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
-        List<Category> category1 = categoryService.findCategory();
-        List<Product> products = productService.findProductByCategoryId(categoryId);
+    @GetMapping("/filter")
+    public String filterProductsByTitleAndByMaxAndMinPrice(@RequestParam(required = false) String title,
+                                                           @RequestParam(required = false) Integer minPrice,
+                                                           @RequestParam(required = false) Integer maxPrice, Model model) {
+        List<Product> products = productService.findProductsByTitleAndByMaxAndMinPrice(title, minPrice, maxPrice);
+        List<Category> category = categoryService.findCategory();
         model.addAttribute("products", products);
-        model.addAttribute("category", category1);
-        return "getAllProduct";
+        model.addAttribute("category",category);
+        return ("getAllProduct");
     }
+
 
     @ExceptionHandler(Exception.class)
     public String handleError(HttpServletRequest req, Exception ex) {
