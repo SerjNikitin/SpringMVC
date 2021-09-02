@@ -17,6 +17,7 @@
         <div class="form-group">
             <input type="file" name="image" id="image">
             <input th:if="${product.image != null}" th:field="*{image}" type="text" hidden>
+<!--                   th:value="${product.image}">-->
         </div>
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Наименование" th:field="*{title}"

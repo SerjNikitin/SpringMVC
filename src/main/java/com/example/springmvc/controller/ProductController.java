@@ -43,6 +43,7 @@ public class ProductController {
     public RedirectView addProduct(@RequestParam String title, @RequestParam String price,
                                    @RequestParam(required = false) MultipartFile image,
                                    @RequestParam Integer categoryId, RedirectAttributes attributes) {
+
         return productService.saveProduct(categoryId, price, title, attributes, image);
     }
 
@@ -60,55 +61,10 @@ public class ProductController {
     public RedirectView updateProductById(@RequestParam Integer categoryId, @RequestParam(required = false) MultipartFile image,
                                           @RequestParam String title, @RequestParam String price, RedirectAttributes attributes,
                                           @PathVariable String id) {
+        Product product = productService.findProductById(Integer.parseInt(id)).get();
 
-        Optional<Category> category = categoryService.findCategoryById(categoryId);
-        if (category.isPresent()) {
-
-            Product product = productService.findProductById(Integer.parseInt(id)).get();
-            product.setCategory(category.get());
-            product.setImage(image.toString());
-            product.setTitle(title);
-            product.setPrice(Integer.parseInt(price));
-
-             productService.saveWithImage(product,image);
-        }
-        return new RedirectView("/product");
+        return productService.updateProductById(product, title, categoryId, price, attributes, image);
     }
-
-//
-//    @GetMapping("/add-product")
-//    public String addFormToAddProduct(Model model, @ModelAttribute("error") String error) {
-//        model.addAttribute("product", new Product());
-//        model.addAttribute("error", error);
-//        model.addAttribute("category", categoryService.findCategory());
-//        return "product/addProduct";
-//    }
-//
-//    @PostMapping("/add-product")
-//    public RedirectView addProduct(@RequestParam String title, @RequestParam String price,
-//                                   @RequestParam(required = false) MultipartFile image,
-//                                   @RequestParam Integer categoryId, RedirectAttributes attributes) {
-//
-//        return productService.saveProduct(categoryId, price, title, attributes, image);
-//    }
-//
-//    @GetMapping("/update/{id}")
-//    public String openViewUpdateProductById(@PathVariable Integer id,
-//                                            @ModelAttribute("error") String error, Model model) {
-//        Product product= productService.findProductById(id).get();
-//        model.addAttribute("product", product);
-//        model.addAttribute("error", error);
-//        model.addAttribute("categories", categoryService.findCategory());
-//        return "product/updateProduct";
-//    }
-
-//    @PostMapping("/update/{id}")
-//    public RedirectView updateProductById(@RequestParam Integer categoryId, @RequestParam String price,
-//                                          @ModelAttribute Product product, RedirectAttributes attributes,
-//                                          @RequestParam MultipartFile image) {
-//        return productService.saveProduct(categoryId,price, product.getTitle(),attributes, image);
-////        return productService.updateProductById(product, categoryId, price, attributes, image);
-//    }
 
     @GetMapping
     private String getAllProduct(Model model) {

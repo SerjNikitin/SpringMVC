@@ -11,17 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-//    List<Product> findAll();
-//
-//    Product findById(Integer id);
-//
-//    Product save(Product productEntity);
-//
-//    Page<Product> findAllByPageAndCategory(Pageable pageable, String categoryAlias);
-//
-//    Product saveWithImage(Product product, MultipartFile image);
-//
-//    void deleteById(Long productId);
 
     Product saveWithImage(Product product, MultipartFile image);
 
@@ -32,8 +21,8 @@ public interface ProductService {
     RedirectView saveProduct(Integer categoryId, String price, String title,
                              RedirectAttributes attributes,MultipartFile image);
 
-//    RedirectView updateProductById(Product product, Integer categoryId, String price,
-//                                   RedirectAttributes attributes,MultipartFile image);
+    RedirectView updateProductById(Product product, String title, Integer categoryId, String price,
+                                   RedirectAttributes attributes,MultipartFile image);
 
     void deleteProductById(Integer id);
 

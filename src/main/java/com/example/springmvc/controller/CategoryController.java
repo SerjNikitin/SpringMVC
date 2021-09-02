@@ -7,10 +7,9 @@ import com.example.springmvc.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -24,15 +23,19 @@ public class CategoryController {
     private ProductService productService;
 
     @GetMapping("/create-category")
-    public String addViewToCreateCategory(Model model) {
+    public String addViewToCreateCategory(Model model,@ModelAttribute("error") String error) {
         model.addAttribute("category", new Category());
         return "category/createCategory";
     }
 
     @PostMapping("/create-category")
-    public String createCategory(@RequestParam String title) {
+    public RedirectView createCategory(@RequestParam String title, RedirectAttributes attributes) {
+        if (title.isEmpty()){
+            attributes.addFlashAttribute("error","Заполните поле название категории");
+            return new RedirectView("/create-category");
+        }
         categoryService.addCategory(title);
-        return "redirect:/product";
+        return new RedirectView ("/product");
     }
 
     @GetMapping("/category")

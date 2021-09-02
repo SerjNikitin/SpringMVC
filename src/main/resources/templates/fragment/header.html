@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>header</title>
@@ -9,6 +9,7 @@
 <body>
 <nav class="navbar navbar-dark bg-dark" th:fragment="header">
     <span class="navbar-brand mb-0 h1">Products.ru</span>
+
     <form action="http://localhost:8080/create-category">
         <input class="btn btn-info" type="submit" value="Добавить категорию">
     </form>
@@ -20,6 +21,7 @@
     <form action="http://localhost:8080/product">
         <input class="btn btn-info" type="submit" value="Назад к продуктам">
     </form>
+
 </nav>
 </body>
 </html>

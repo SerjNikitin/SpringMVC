@@ -12,6 +12,7 @@
         Header
     </div>
     <h4>Добавить категорию</h4>
+    <h3 style="color: red" th:text="${error}"></h3>
     <div class="col-md-4">
         <form class="mt-2 mb-2" method="post" th:action="@{/create-category}">
             <div class="row">
