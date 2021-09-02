@@ -25,3 +25,5 @@ create table market.category
 alter table market.category
     owner to postgres;
 
+alter table market.product
+    add image text;

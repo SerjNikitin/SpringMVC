@@ -9,6 +9,9 @@
 </head>
 <body>
 <div class="container m-4 p-4">
+    <div th:replace="~{fragment/header::header}">
+        Header
+    </div>
     <div class="row">
         <h1>Продукты</h1>
         <table class="table">
@@ -26,11 +29,9 @@
                 <td th:text="${p.category.title}"></td>
             </tbody>
         </table>
-        <h3>
-            <form action="http://localhost:8080/product">
-                <input class="btn btn-info" type="submit" value="back to products">
-            </form>
-        </h3>
+    </div>
+    <div th:replace="~{fragment/footer::footer}">
+        Footer
     </div>
 </div>
 </body>

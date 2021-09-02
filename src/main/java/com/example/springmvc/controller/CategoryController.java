@@ -26,7 +26,7 @@ public class CategoryController {
     @GetMapping("/create-category")
     public String addViewToCreateCategory(Model model) {
         model.addAttribute("category", new Category());
-        return "createCategory";
+        return "category/createCategory";
     }
 
     @PostMapping("/create-category")
@@ -37,10 +37,10 @@ public class CategoryController {
 
     @GetMapping("/category")
     public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
-        List<Category> category1 = categoryService.findCategory();
+        List<Category> category = categoryService.findCategory();
         List<Product> products = productService.findProductByCategoryId(categoryId);
         model.addAttribute("products", products);
-        model.addAttribute("category", category1);
-        return "getAllProduct";
+        model.addAttribute("category", category);
+        return "product/getAllProduct";
     }
 }

@@ -1,6 +1,9 @@
 package com.example.springmvc.repository;
 
+import com.example.springmvc.domain.Category;
 import com.example.springmvc.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,19 +1,39 @@
 package com.example.springmvc.service;
 
 import com.example.springmvc.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
+//    List<Product> findAll();
+//
+//    Product findById(Integer id);
+//
+//    Product save(Product productEntity);
+//
+//    Page<Product> findAllByPageAndCategory(Pageable pageable, String categoryAlias);
+//
+//    Product saveWithImage(Product product, MultipartFile image);
+//
+//    void deleteById(Long productId);
+
+    Product saveWithImage(Product product, MultipartFile image);
 
     List<Product> findProducts();
 
     Optional<Product> findProductById(Integer id);
 
-    void saveProduct(Product product);
+    RedirectView saveProduct(Integer categoryId, String price, String title,
+                             RedirectAttributes attributes,MultipartFile image);
 
-    void updateProductById(Product product);
+//    RedirectView updateProductById(Product product, Integer categoryId, String price,
+//                                   RedirectAttributes attributes,MultipartFile image);
 
     void deleteProductById(Integer id);
 

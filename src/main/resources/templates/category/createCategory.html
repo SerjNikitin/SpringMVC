@@ -8,6 +8,9 @@
 </head>
 <body>
 <div class="container m-4 p-4">
+    <div th:replace="~{fragment/header::header}">
+        Header
+    </div>
     <h4>Добавить категорию</h4>
     <div class="col-md-4">
         <form class="mt-2 mb-2" method="post" th:action="@{/create-category}">
@@ -22,11 +25,9 @@
             </div>
         </form>
     </div>
-    <h3>
-        <form action="http://localhost:8080/product">
-            <input type="submit" value="back to products">
-        </form>
-    </h3>
+    <div th:replace="~{fragment/footer::footer}">
+        Footer
+    </div>
 </div>
 
 </body>
