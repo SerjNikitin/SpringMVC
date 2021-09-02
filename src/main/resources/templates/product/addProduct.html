@@ -7,38 +7,43 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="~{fragment/header::header}">Header</div>
-<h3>Добавить продукты</h3>
-<h3 style="color: red" th:text="${error}"></h3>
+<div class="container mt-15 mb-15">
 
-<form action="#" th:action="@{/product/add-product}" th:object="${product}" method="post" enctype="multipart/form-data">
-    <div class="row">
 
-        <div class="form-group">
-            <input type="file" name="image" id="image">
-            <input th:if="${product.image != null}" th:field="*{image}" type="text" hidden>
-        </div>
+    <div th:replace="~{fragment/header::header}">Header</div>
+    <h3>Добавить продукты</h3>
+    <h3 style="color: red" th:text="${error}"></h3>
 
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Имя" th:name="title">
+    <form action="#" th:action="@{/product/add-product}" th:object="${product}" method="post"
+          enctype="multipart/form-data">
+        <div class="row">
+
+            <div class="form-group">
+                <input type="file" name="image" id="image">
+                <input th:if="${product.image != null}" th:field="*{image}" type="text" hidden>
+            </div>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Имя" th:name="title">
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" placeholder="Цена" th:name="price">
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" th:name="categoryId">
+                    <option th:each="c : ${category}"
+                            th:text="${c.title}"
+                            th:value="${c.id}"></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="number" class="form-control" placeholder="Цена" th:name="price">
-        </div>
-        <div class="col-md-3">
-            <select class="form-control" th:name="categoryId">
-                <option th:each="c : ${category}"
-                        th:text="${c.title}"
-                        th:value="${c.id}"></option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <button type="submit" class="btn btn-primary">Добавить</button>
-        </div>
+    </form>
+    <div th:replace="~{fragment/footer::footer}">
+        Footer
     </div>
-</form>
-<div th:replace="~{fragment/footer::footer}">
-    Footer
 </div>
 </body>
 </html>

@@ -12,8 +12,6 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Product saveWithImage(Product product, MultipartFile image);
-
     List<Product> findProducts();
 
     Optional<Product> findProductById(Integer id);

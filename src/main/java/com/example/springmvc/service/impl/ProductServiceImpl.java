@@ -36,20 +36,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id);
     }
 
-    @Override
-    @Transactional
-    public Product saveWithImage(Product product, MultipartFile image) {
-        Product savedProduct = productRepository.save(product);
-//
-//        if (image != null && !image.isEmpty()) {
-//            Path pathImage = FileUtils.saveProductImage(image);
-//            savedProduct.setImage(pathImage.toString());
-//
-//            productRepository.save(savedProduct);
-//        }
-        return savedProduct;
-    }
-
     @Transactional
     @Override
     public RedirectView saveProduct(Integer categoryId, String price, String title, RedirectAttributes attributes,
