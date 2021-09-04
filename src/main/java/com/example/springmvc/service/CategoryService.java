@@ -10,13 +10,10 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-
     List<Category> findCategory();
-
-//    void createCategory(Category category);
 
     void addCategory(String title);
 
-    Optional<Category>findCategoryById(Integer id);
+    List<Product>findCategoryById(Integer id);
 
 }

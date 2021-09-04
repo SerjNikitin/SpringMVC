@@ -16,34 +16,41 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping
+@RequestMapping("/category")
 public class CategoryController {
 
     private CategoryService categoryService;
-    private ProductService productService;
 
-    @GetMapping("/create-category")
-    public String addViewToCreateCategory(Model model,@ModelAttribute("error") String error) {
+    @GetMapping("/form")
+    public String addViewToCreateCategory(Model model, @ModelAttribute("error") String error) {
         model.addAttribute("category", new Category());
-        return "category/createCategory";
+        return "category/form";
     }
 
-    @PostMapping("/create-category")
+    @PostMapping("/form")
     public RedirectView createCategory(@RequestParam String title, RedirectAttributes attributes) {
-        if (title.isEmpty()){
-            attributes.addFlashAttribute("error","Заполните поле название категории");
-            return new RedirectView("/create-category");
+        if (title.isEmpty()) {
+            attributes.addFlashAttribute("error", "Заполните поле название категории");
+            return new RedirectView("/form");
         }
         categoryService.addCategory(title);
-        return new RedirectView ("/product");
+        return new RedirectView("/category/list");
     }
 
-    @GetMapping("/category")
+    @GetMapping("/list")
+    public String findAllCategory(Model model) {
+        List<Category> categories = categoryService.findCategory();
+        model.addAttribute("categories", categories);
+        return "category/list";
+    }
+
+    @GetMapping("/find")
     public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
+        List<Product> products = categoryService.findCategoryById(categoryId);
         List<Category> category = categoryService.findCategory();
-        List<Product> products = productService.findProductByCategoryId(categoryId);
-        model.addAttribute("products", products);
         model.addAttribute("category", category);
-        return "product/getAllProduct";
+        model.addAttribute("products", products);
+
+        return "product/list";
     }
 }

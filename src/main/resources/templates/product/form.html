@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add product</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragment/header::header}">Header</div>
+<div class="container my-4">
+    <h1 th:text="${product.id} == null ? 'Добавление продукта' : 'Редактирование продукта'">Добавление/Редактирование
+        продукта</h1>
+    <form enctype="multipart/form-data" method="post" th:action="@{/product/form}" th:object="${product}">
+        <!--        <h3 style="color: red" th:text="${error}"></h3>-->
+        <div class="form-row d-flex flex-sm-column justify-content-around">
+            <div class="col-md-5 col-sm-12">
+
+                <div th:if="${product.id != null}" class="form-group">
+                    <input type="number" th:field="*{id}" hidden>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="productName">Имя продукта </label>
+                    <input class="form-control" id="productName" placeholder="Введите название продукта" size="30"
+                           th:field="*{title}" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="productCategories">Выберите категорию</label>
+                    <select class="form-control" id="productCategories" multiple th:field="*{categories}">
+                        <option th:each="c : ${categories}" th:text="${c.title}" th:value="${c.id}">1</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label" for="productCost">Стоимость продукта</label>
+                    <input class="form-control" id="productCost" placeholder="Введите стоимость продукта" step="0.01"
+                           th:field="*{price}" type="number">
+                </div>
+                <div class="form-group">
+                    <div class="mb-3">
+                        <label class="form-label" for="formFile">Выберите изображение</label>
+                        <input accept="image/*" class="form-control" id="formFile" name="image" type="file">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <button class="btn btn-outline-success" type="submit">Сохранить</button>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragment/footer::footer}">Footer</div>
+</body>
+</html>

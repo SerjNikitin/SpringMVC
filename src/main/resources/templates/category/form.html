@@ -7,14 +7,14 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+<div th:replace="~{fragment/header::header}">
+    Header
+</div>
 <div class="container mt-15 mb-15">
-    <div th:replace="~{fragment/header::header}">
-        Header
-    </div>
     <h4>Добавить категорию</h4>
     <h3 style="color: red" th:text="${error}"></h3>
     <div class="col-md-4">
-        <form class="mt-2 mb-2" method="post" th:action="@{/create-category}">
+        <form class="mt-2 mb-2" method="post" th:action="@{/category/form}">
             <div class="row">
                 <div class="col-md-8">
                     <input class="form-control" placeholder="Имя категории" th:name="title" type="text">

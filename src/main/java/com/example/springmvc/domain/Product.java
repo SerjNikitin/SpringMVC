@@ -5,12 +5,17 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
+@Builder
+@ToString(exclude = {"categories"})
+@EqualsAndHashCode(exclude = {"id", "categories"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product", schema = "market")
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -26,26 +31,25 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @ManyToOne()
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     @Column(name = "image")
     private String image;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
+
 
     public Product(String title, int price) {
         this.title = title;
         this.price = price;
     }
-//
-//    public Product(Integer id, String title, Integer price) {
-//        this.id = id;
-//        this.title = title;
-//        this.price = price;
-//    }
 
-    @Override
-    public String toString() {
-        return "{" + id + ", " + title + ", " + price +"," + category+","+image+"}";
-    }
+//    @Override
+//    public String toString() {
+//        return "{" + id + ", " + title + ", " + price + "," + category + "," + image + "}";
+//    }
 }

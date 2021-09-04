@@ -1,17 +1,19 @@
 package com.example.springmvc.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "category", schema = "market")
+@Builder
+@ToString(exclude = {"subCategories"})
+@EqualsAndHashCode(exclude = {"id", "subCategories"})
+@Table(name = "category")
 public class Category {
 
     @Id
@@ -20,20 +22,25 @@ public class Category {
 
     @Column(name = "title")
     private String title;
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
 
-    public Category(String category) {
-        this.title=category;
-    }
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parentCategory;
 
-    public Category(Integer id, String title) {
-        this.id = id;
+    @OneToMany(mappedBy = "parentCategory")
+    private Set<Category> subCategories;
+
+    public Category(String title) {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return title ;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
 }
+
+
