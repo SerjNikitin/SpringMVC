@@ -27,7 +27,7 @@ public class ProductController {
 
 
     @GetMapping("/list")
-    public String getProductListPage(Model model) {
+    public String getListProducts(Model model) {
         List<Product> products = productService.findProducts();
         model.addAttribute("products", products);
         return "product/list";
@@ -51,7 +51,7 @@ public class ProductController {
                                     @RequestParam(required = false) MultipartFile image,
                                     RedirectAttributes attributes) {
 
-        productService.saveImage(product, image);
+        productService.saveProductAndImage(product, image);
         return new RedirectView("/product/list");
     }
 

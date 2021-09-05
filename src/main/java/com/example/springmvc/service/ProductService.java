@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Product saveImage(ProductDto product, MultipartFile image);
+    Product saveProductAndImage(ProductDto product, MultipartFile image);
 
     List<Product> findProducts();
 

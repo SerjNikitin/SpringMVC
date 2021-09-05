@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product saveImage(ProductDto productDto, MultipartFile image) {
+    public Product saveProductAndImage(ProductDto productDto, MultipartFile image) {
         Product product = convertProductDtoInProduct(productDto);
         Product savedProduct = productRepository.save(product);
         if (image != null && !image.isEmpty()) {
