@@ -1,7 +1,9 @@
 package com.example.springmvc.converter;
 
+import com.example.springmvc.domain.Category;
 import com.example.springmvc.domain.Product;
 import com.example.springmvc.domain.dto.ProductDto;
+import com.example.springmvc.service.CategoryService;
 
 public class Converter {
     public static ProductDto DtoProductConvertInProduct(Product product) {
@@ -19,5 +21,4 @@ public class Converter {
         product.setCategories(productDto.getCategories());
         return product;
     }
-
 }

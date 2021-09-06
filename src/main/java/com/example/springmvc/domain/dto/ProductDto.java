@@ -2,6 +2,7 @@ package com.example.springmvc.domain.dto;
 
 import com.example.springmvc.domain.Category;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

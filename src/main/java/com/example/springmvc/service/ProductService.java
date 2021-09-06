@@ -1,13 +1,20 @@
 package com.example.springmvc.service;
 
 import com.example.springmvc.domain.Product;
+import com.example.springmvc.domain.ProductSearchCondition;
 import com.example.springmvc.domain.dto.ProductDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
+
+//    Page<Product>pagination(ProductSearchCondition searchCondition);
+
+    Product saveProduct(Product product);
 
     Product saveProductAndImage(ProductDto product, MultipartFile image);
 

@@ -10,10 +10,16 @@ import java.util.Optional;
 
 public interface CategoryService {
 
+    void deleteCategory(Integer id);
+
+    void updateCategory(Integer id,String title);
+
     List<Category> findCategory();
 
     void addCategory(String title);
 
-    List<Product>findCategoryById(Integer id);
+    List<Product>findProductsByCategoryId(Integer id);
+
+    Optional<Category> findCategoryById(Integer id);
 
 }

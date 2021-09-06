@@ -2,11 +2,16 @@ package com.example.springmvc.service.impl;
 
 import com.example.springmvc.converter.Converter;
 import com.example.springmvc.domain.Product;
+import com.example.springmvc.domain.ProductSearchCondition;
 import com.example.springmvc.domain.dto.ProductDto;
 import com.example.springmvc.repository.ProductRepository;
 import com.example.springmvc.service.ProductService;
 import com.example.springmvc.utils.FileUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +26,20 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+
+//    @Override
+//    public Page<Product> pagination(ProductSearchCondition searchCondition) {
+//        Pageable pageRequest = PageRequest.of(searchCondition.getPageNum(),
+//                searchCondition.getPageSize(),
+//                Sort.by(searchCondition.getSortDirection(),searchCondition.getSortField()));
+//        return pageRequest.;
+//        return productRepository.findAll(pageRequest);
+//    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
 
     @Override
     @Transactional

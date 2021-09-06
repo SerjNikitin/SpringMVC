@@ -46,7 +46,7 @@ public class CategoryController {
 
     @GetMapping("/find")
     public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
-        List<Product> products = categoryService.findCategoryById(categoryId);
+        List<Product> products = categoryService.findProductsByCategoryId(categoryId);
         List<Category> category = categoryService.findCategory();
         model.addAttribute("category", category);
         model.addAttribute("products", products);
