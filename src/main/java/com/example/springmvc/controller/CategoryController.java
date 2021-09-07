@@ -3,7 +3,6 @@ package com.example.springmvc.controller;
 import com.example.springmvc.domain.Category;
 import com.example.springmvc.domain.Product;
 import com.example.springmvc.service.CategoryService;
-import com.example.springmvc.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

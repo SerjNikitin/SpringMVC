@@ -4,12 +4,7 @@ import com.example.springmvc.domain.Product;
 import com.example.springmvc.domain.ProductSearchCondition;
 import com.example.springmvc.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
