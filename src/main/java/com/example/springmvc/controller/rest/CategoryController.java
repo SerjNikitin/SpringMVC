@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.springmvc.domain.constans.ConstanceName.*;
 @AllArgsConstructor
-@RequestMapping("/api/v1/category")
+@RequestMapping(API_V1+CATEGORY)
 @RestController("restCategoryController")
 public class CategoryController {
     CategoryService categoryService;

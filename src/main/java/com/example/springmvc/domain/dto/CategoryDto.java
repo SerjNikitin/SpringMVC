@@ -1,6 +1,5 @@
 package com.example.springmvc.domain.dto;
 
-import com.example.springmvc.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +11,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class CategoryDto {
     private Integer id;
     private String title;
-    private Integer price;
-    private Set<Category> categories;
+    private Set<ProductDto> productsDto;
 }

@@ -1,8 +1,9 @@
 package com.example.springmvc.service.impl;
 
-import com.example.springmvc.converter.Converter;
+//import com.example.springmvc.converter.Converter;
+import com.example.springmvc.converter.ProductConverter;
 import com.example.springmvc.domain.Product;
-import com.example.springmvc.domain.ProductSearchCondition;
+import com.example.springmvc.domain.search.ProductSearchCondition;
 import com.example.springmvc.domain.dto.ProductDto;
 import com.example.springmvc.repository.ProductRepository;
 import com.example.springmvc.service.ProductService;
@@ -17,24 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
-//    @Override
-//    public Page<Product> pagination(ProductSearchCondition searchCondition) {
-//        Pageable pageRequest = PageRequest.of(searchCondition.getPageNum(),
-//                searchCondition.getPageSize(),
-//                Sort.by(searchCondition.getSortDirection(),searchCondition.getSortField()));
-//        return pageRequest.;
-//        return productRepository.findAll(pageRequest);
-//    }
 
     @Override
     public Product saveProduct(Product product) {
@@ -59,10 +49,10 @@ public class ProductServiceImpl implements ProductService {
         if (id != null) {
             Product product = findProductById(id).get();
             product.setId(productDto.getId());
-            return Converter.getProduct(productDto, product);
+            return ProductConverter.dtoProductConvertToProduct(productDto, product);
         }
         Product product = new Product();
-        return Converter.getProduct(productDto, product);
+        return ProductConverter.dtoProductConvertToProduct(productDto, product);
     }
 
     @Override
@@ -80,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto findProductDtoById(Integer id) {
         Optional<Product> productById = findProductById(id);
 
-        return Converter.DtoProductConvertInProduct(productById.get());
+        return ProductConverter.productConvertToDtoProduct(productById.get());
     }
 
     @Override
@@ -99,6 +89,17 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByTitleContainingIgnoreCaseAndPriceBetween(title, minPrice, maxPrice);
     }
 
+    @Override
+    public Set<ProductDto> findProductsDtoByCategoryId(Integer categoryId) {
+        Set<Product> productsByCategoryId = productRepository.findByCategories_Id(categoryId);
+        Set<ProductDto>productDtoSet=new HashSet<>();
+        for (Product product : productsByCategoryId) {
+            ProductDto productDto = ProductConverter.productConvertToDtoProduct(product);
+            productDtoSet.add(productDto);
+        }
+        return productDtoSet;
+    }
+
 //
 //    private boolean getRedirectView(String title, String price, RedirectAttributes attributes, MultipartFile image) {
 //        if (title.isEmpty()) {
@@ -115,4 +116,30 @@ public class ProductServiceImpl implements ProductService {
 //        }
 //        return false;
 //    }
+
+    @Override
+    public Page<Product> findAllBySearchConditional(ProductSearchCondition searchCondition) {
+        Pageable pageRequest = PageRequest.of(searchCondition.getPageNum(),
+                searchCondition.getPageSize(),
+                Sort.by(searchCondition.getSortDirection(), searchCondition.getSortField()));
+//        return pageRequest;
+        return productRepository.findAll(pageRequest);
+    }
+
+
+    //переместил в конвертер
+//    private ProductDto productConvertToDtoProduct(Product product) {
+//        return ProductDto.builder().id(product.getId())
+//                .title(product.getTitle())
+//                .price(product.getPrice())
+//                .categories(categoryService.getCategoryDtoByProductId(product.getId())).build();
+//    }
+//
+//    private Product dtoProductConvertToProduct(ProductDto productDto, Product product) {
+//        product.setTitle(productDto.getTitle());
+//        product.setPrice(productDto.getPrice());
+//        product.setCategories(categoryService.findCategoriesByProductId(productDto.getId()));
+//        return product;
+//    }
+
 }

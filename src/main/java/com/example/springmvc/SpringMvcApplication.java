@@ -13,6 +13,5 @@ public class SpringMvcApplication {
 //        flyway.migrate();
 
         SpringApplication.run(SpringMvcApplication.class, args);
-
     }
 }

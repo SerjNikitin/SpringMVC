@@ -1,38 +1,45 @@
 package com.example.springmvc.controller.rest;
 
 import com.example.springmvc.domain.Product;
-import com.example.springmvc.domain.ProductSearchCondition;
+import com.example.springmvc.domain.search.ProductSearchCondition;
+import com.example.springmvc.domain.dto.ProductDto;
 import com.example.springmvc.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static com.example.springmvc.domain.constans.ConstanceName.*;
 
 @AllArgsConstructor
-@RequestMapping("/api/v1/product")
+@RequestMapping(API_V1+PRODUCT)
 @RestController("restProductController")
 public class ProductController {
 
     private ProductService productService;
 
     @GetMapping("/{id}")
-    private Product getProductById(@PathVariable Integer id) {
-        return productService.findProductById(id).get();
+    private ProductDto getProductById(@PathVariable Integer id) {
+        return productService.findProductDtoById(id);
+    }
+//
+//    @GetMapping
+//    public List<Product> getAllProducts() {
+//        return productService.findProducts();
+//    }
+
+    @PostMapping
+    public Page<Product> getAllProducts(@RequestBody ProductSearchCondition searchCondition) {
+        return productService.findAllBySearchConditional(searchCondition);
     }
 
-    @GetMapping
-    public List<Product> getAllProducts(@RequestBody ProductSearchCondition searchCondition) {
-//        return productService.pagination(searchCondition);
-        return productService.findProducts();
-    }
 
     @PutMapping
     public Product updateProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public Product addProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }

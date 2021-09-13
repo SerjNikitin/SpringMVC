@@ -1,4 +1,4 @@
-package com.example.springmvc.domain;
+package com.example.springmvc.domain.search;
 
 import lombok.Data;
 import org.springframework.data.domain.Sort;
@@ -10,4 +10,10 @@ public class ProductSearchCondition {
 
     private int pageNum;
     private Integer pageSize=20;
+
+//    private List<Integer> pageNumbers = Collections.singletonList(1);
+//
+//    private Page<ProductDto> page;
+
+//    private String titleFilter;
 }

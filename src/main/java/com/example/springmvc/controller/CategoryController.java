@@ -12,21 +12,22 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
+import static com.example.springmvc.domain.constans.ConstanceName.*;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping("/category")
+@RequestMapping(CATEGORY)
 public class CategoryController {
 
     private CategoryService categoryService;
 
-    @GetMapping("/form")
+    @GetMapping(FORM)
     public String addViewToCreateCategory(Model model, @ModelAttribute("error") String error) {
         model.addAttribute("category", new Category());
         return "category/form";
     }
 
-    @PostMapping("/form")
+    @PostMapping(FORM)
     public RedirectView createCategory(@RequestParam String title, RedirectAttributes attributes) {
         if (title.isEmpty()) {
             attributes.addFlashAttribute("error", "Заполните поле название категории");
@@ -36,14 +37,14 @@ public class CategoryController {
         return new RedirectView("/category/list");
     }
 
-    @GetMapping("/list")
+    @GetMapping(LIST)
     public String findAllCategory(Model model) {
         List<Category> categories = categoryService.findCategory();
         model.addAttribute("categories", categories);
         return "category/list";
     }
 
-    @GetMapping("/find")
+    @GetMapping(FIND)
     public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
         List<Product> products = categoryService.findProductsByCategoryId(categoryId);
         List<Category> category = categoryService.findCategory();
