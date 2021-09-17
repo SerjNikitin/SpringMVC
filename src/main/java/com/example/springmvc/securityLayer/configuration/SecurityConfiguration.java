@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -23,9 +22,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/product/form/**", "/category/form/**").hasAnyRole("ADMIN", "MANAGER")
                 .antMatchers("/login/**").authenticated()
-                .anyRequest().permitAll().and()
+                .anyRequest().permitAll()
+                .and()
                 .formLogin()
-                .defaultSuccessUrl("/product/list");
+                .defaultSuccessUrl("/product/list")
+                .and()
+                .logout().logoutSuccessUrl("/product/list");
     }
 
     @Bean
