@@ -1,6 +1,5 @@
 package com.example.springmvc.mvcLayer.service.impl;
 
-//import com.example.springmvc.mvcLayer.converter.Converter;
 import com.example.springmvc.mvcLayer.converter.ProductConverter;
 import com.example.springmvc.mvcLayer.domain.productMarket.Product;
 import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
@@ -15,10 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @AllArgsConstructor
 @Service
@@ -55,11 +58,6 @@ public class ProductServiceImpl implements ProductService {
         return ProductConverter.dtoProductConvertToProduct(productDto, product);
     }
 
-//    @Override
-//    public List<Product> findProducts() {
-//        return productRepository.findAll();
-//    }
-
     @Override
     public Optional<Product> findProductById(Integer id) {
         return productRepository.findById(id);
@@ -69,16 +67,12 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto findProductDtoById(Integer id) {
         Optional<Product> productById = findProductById(id);
-
         return ProductConverter.productConvertToDtoProduct(productById.get());
     }
 
     @Override
-    @Transactional
-    public Page<Product> deleteProductById(Integer id,ProductSearchCondition searchCondition) {
+    public void deleteProductById(Integer id) {
         productRepository.deleteById(id);
-        Pageable pageable = getPageable(searchCondition);
-        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -99,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Pageable getPageable(ProductSearchCondition searchCondition) {
-        return PageRequest.of(searchCondition.getPageNum(),
+        return PageRequest.of(searchCondition.getPageNum()-1,
                 searchCondition.getPageSize(),
                 Sort.by(searchCondition.getSortDirection(), searchCondition.getSortField()));
     }
@@ -114,26 +108,20 @@ public class ProductServiceImpl implements ProductService {
             maxPrice = Integer.MAX_VALUE;
         }
         Pageable pageRequest = getPageable(searchCondition);
-
         return productRepository.findProductsByTitleContainingIgnoreCaseAndPriceBetween(title,minPrice,maxPrice,pageRequest);
     }
 
-
-
-//
-//    private boolean getRedirectView(String title, String price, RedirectAttributes attributes, MultipartFile image) {
-//        if (title.isEmpty()) {
-//            attributes.addFlashAttribute("error", "Заполните поле с названием продукта");
-//            return true;
-//        }
-//        if (price.isEmpty()) {
-//            attributes.addFlashAttribute("error", "Заполните поле с ценой продукта");
-//            return true;
-//        }
-//        if (image.isEmpty()) {
-//            attributes.addFlashAttribute("error", "Заполните поле с фотографией продукта");
-//            return true;
-//        }
-//        return false;
-//    }
+    @Override
+    public void pagination(ProductSearchCondition searchCondition, Model model, Page<Product> page) {
+        int totalPages = page.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("pageNum", searchCondition.getPageNum());
+        model.addAttribute("page", page);
+        model.addAttribute("pageSize", searchCondition.getPageSize());
+    }
 }

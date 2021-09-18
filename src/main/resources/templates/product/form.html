@@ -12,7 +12,7 @@
     <h1 th:text="${product.id} == null ? 'Добавление продукта' : 'Редактирование продукта'">Добавление/Редактирование
         продукта</h1>
     <form enctype="multipart/form-data" method="post" th:action="@{/product/form}" th:object="${product}">
-        <!--        <h3 style="color: red" th:text="${error}"></h3>-->
+                <h3 style="color: red" th:text="${error}"></h3>
         <div class="form-row d-flex flex-sm-column justify-content-around">
             <div class="col-md-5 col-sm-12">
 
@@ -22,8 +22,7 @@
 
                 <div class="form-group">
                     <label class="form-label" for="productName">Имя продукта </label>
-                    <input class="form-control" id="productName" placeholder="Введите название продукта" size="30"
-                           th:field="*{title}" type="text">
+                    <input class="form-control" id="productName" placeholder="Введите название продукта" size="30" th:field="*{title}" type="text">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="productCategories">Выберите категорию</label>

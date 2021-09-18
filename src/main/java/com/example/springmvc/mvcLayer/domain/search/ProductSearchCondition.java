@@ -1,19 +1,20 @@
 package com.example.springmvc.mvcLayer.domain.search;
 
+import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+
+import java.util.Collections;
+import java.util.List;
 
 @Data
 public class ProductSearchCondition {
     private Sort.Direction sortDirection=Sort.Direction.ASC;
     private String sortField="title";
 
-    private int pageNum;
-    private Integer pageSize=20;
+    private int pageNum =1;
+    private Integer pageSize=10;
 
-//    private List<Integer> pageNumbers = Collections.singletonList(1);
-//
-//    private Page<ProductDto> page;
-
-//    private String titleFilter;
+    private Page<ProductDto> page;
 }

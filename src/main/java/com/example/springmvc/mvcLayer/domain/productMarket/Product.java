@@ -22,14 +22,18 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
     @NotBlank(message = "Название обязательно")
     @Column(name = "title")
     private String title;
+
     @NotNull(message = "Цена обязательна")
     @Column(name = "price")
     private Integer price;
+
     @Column(name = "image")
     private String image;
+
     @ManyToMany
     @JoinTable(
             name = "product_category",

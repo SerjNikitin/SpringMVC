@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public class Category {
     private Integer id;
 
     @Column(name = "title")
+    @NotBlank(message = "Название обязательно")
     private String title;
 
     @ManyToOne

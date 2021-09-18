@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,7 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.example.springmvc.securityLayer.domain.User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-
         return new User(
                 user.getUsername(), user.getPassword(),
                 user.isEnabled(), true, true, true,

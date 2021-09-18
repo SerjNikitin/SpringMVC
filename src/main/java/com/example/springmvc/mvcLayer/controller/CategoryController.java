@@ -31,10 +31,10 @@ public class CategoryController {
     public RedirectView createCategory(@RequestParam String title, RedirectAttributes attributes) {
         if (title.isEmpty()) {
             attributes.addFlashAttribute("error", "Заполните поле название категории");
-            return new RedirectView("/form");
+            return new RedirectView(CATEGORY+FORM);
         }
         categoryService.addCategory(title);
-        return new RedirectView("/category/list");
+        return new RedirectView(CATEGORY+LIST);
     }
 
     @GetMapping(LIST)
