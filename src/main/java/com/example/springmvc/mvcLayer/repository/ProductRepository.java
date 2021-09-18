@@ -19,8 +19,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     void deleteById(Integer id);
 
-    Set<Product> findByCategories_Id(Integer categoryId);
-
     Page<Product> findAll(Pageable pageable);
 
     Page<Product> findProductsByTitleContainingIgnoreCaseAndPriceBetween(

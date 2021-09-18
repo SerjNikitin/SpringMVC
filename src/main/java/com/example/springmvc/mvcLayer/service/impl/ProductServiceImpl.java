@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -28,11 +27,6 @@ import java.util.stream.IntStream;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
-    @Override
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
-    }
 
     @Override
     @Transactional
@@ -73,17 +67,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(Integer id) {
         productRepository.deleteById(id);
-    }
-
-    @Override
-    public Set<ProductDto> findProductsDtoByCategoryId(Integer categoryId) {
-        Set<Product> productsByCategoryId = productRepository.findByCategories_Id(categoryId);
-        Set<ProductDto>productDtoSet=new HashSet<>();
-        for (Product product : productsByCategoryId) {
-            ProductDto productDto = ProductConverter.productConvertToDtoProduct(product);
-            productDtoSet.add(productDto);
-        }
-        return productDtoSet;
     }
 
     @Override

@@ -10,6 +10,7 @@
 <div th:replace="~{fragment/header::header}">Header</div>
 <div class="container">
     <div th:replace="~{filter/filterByPrice::filter}">filter</div>
+
     <div class="row row-cols-auto mt-5 mb-5">
         <div class="card bg-light mb-3" th:each="product :${page.getContent()}" th:object="${product}">
             <img class="card-img-top" height="180" th:alt="*{title}" th:src="@{${product.image}}"

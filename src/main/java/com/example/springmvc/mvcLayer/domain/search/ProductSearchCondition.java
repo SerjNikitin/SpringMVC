@@ -16,5 +16,5 @@ public class ProductSearchCondition {
     private int pageNum =1;
     private Integer pageSize=10;
 
-    private Page<ProductDto> page;
+//    private Page<ProductDto> page;
 }

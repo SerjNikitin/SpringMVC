@@ -9,7 +9,7 @@
 <body>
 <div th:replace="~{fragment/header::header}">Header</div>
 <div class="container">
-    <div th:replace="~{filter/filter::filter}">filter</div>
+<!--    <div th:replace="~{filter/filter::filter}">filter</div>-->
     <div class="row row-cols-auto mt-5 mb-5">
         <div class="card" th:each="category :${categories}" th:object="${category}">
             <div class="card-body">

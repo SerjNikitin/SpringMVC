@@ -19,7 +19,7 @@ import static com.example.springmvc.mvcLayer.domain.constans.ConstanceName.*;
 @RequestMapping(CATEGORY)
 public class CategoryController {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping(FORM)
     public String addViewToCreateCategory(Model model, @ModelAttribute("error") String error) {
@@ -44,13 +44,13 @@ public class CategoryController {
         return "category/list";
     }
 
-    @GetMapping(FIND)//TODO: переделать чтобы возвращало page
-    public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
-        List<Product> products = categoryService.findProductsByCategoryId(categoryId);
-        List<Category> category = categoryService.findCategory();
-        model.addAttribute("category", category);
-        model.addAttribute("products", products);
-
-        return "product/list";
-    }
+//    @GetMapping(FIND)//
+//    public String findProductByCategoryId(@RequestParam Integer categoryId, Model model) {
+//        List<Product> products = categoryService.findProductsByCategoryId(categoryId);
+//        List<Category> category = categoryService.findCategory();
+//        model.addAttribute("category", category);
+//        model.addAttribute("products", products);
+//
+//        return "product/list";
+//    }
 }
