@@ -1,4 +1,4 @@
-package com.example.springmvc.securityLayer.domain;
+package com.example.springmvc.mvcLayer.domain.security;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

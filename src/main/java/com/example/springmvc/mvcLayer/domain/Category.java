@@ -1,4 +1,4 @@
-package com.example.springmvc.mvcLayer.domain.productMarket;
+package com.example.springmvc.mvcLayer.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;

@@ -1,6 +1,6 @@
-package com.example.springmvc.securityLayer.service;
+package com.example.springmvc.mvcLayer.service;
 
-import com.example.springmvc.securityLayer.domain.User;
+import com.example.springmvc.mvcLayer.domain.security.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

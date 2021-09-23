@@ -1,7 +1,6 @@
 package com.example.springmvc.mvcLayer.component;
 
 import com.example.springmvc.mvcLayer.domain.cart.CartItem;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

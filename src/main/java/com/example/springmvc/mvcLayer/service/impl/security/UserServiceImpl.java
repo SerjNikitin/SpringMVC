@@ -1,10 +1,10 @@
-package com.example.springmvc.securityLayer.service.impl;
+package com.example.springmvc.mvcLayer.service.impl.security;
 
-import com.example.springmvc.securityLayer.domain.Role;
-import com.example.springmvc.securityLayer.domain.User;
-import com.example.springmvc.securityLayer.repository.UserRepository;
-import com.example.springmvc.securityLayer.service.RoleService;
-import com.example.springmvc.securityLayer.service.UserService;
+import com.example.springmvc.mvcLayer.domain.security.Role;
+import com.example.springmvc.mvcLayer.domain.security.User;
+import com.example.springmvc.mvcLayer.repository.UserRepository;
+import com.example.springmvc.mvcLayer.service.RoleService;
+import com.example.springmvc.mvcLayer.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

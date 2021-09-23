@@ -1,4 +1,4 @@
-package com.example.springmvc.securityLayer.configuration;
+package com.example.springmvc.mvcLayer.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

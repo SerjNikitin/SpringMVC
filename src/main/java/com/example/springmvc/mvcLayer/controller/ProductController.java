@@ -2,8 +2,8 @@ package com.example.springmvc.mvcLayer.controller;
 
 
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
-import com.example.springmvc.mvcLayer.domain.productMarket.Category;
-import com.example.springmvc.mvcLayer.domain.productMarket.Product;
+import com.example.springmvc.mvcLayer.domain.Category;
+import com.example.springmvc.mvcLayer.domain.Product;
 import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.service.CategoryService;
 import com.example.springmvc.mvcLayer.service.ProductService;

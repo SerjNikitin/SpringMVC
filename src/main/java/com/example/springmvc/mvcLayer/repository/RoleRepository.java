@@ -1,7 +1,6 @@
-package com.example.springmvc.securityLayer.repository;
+package com.example.springmvc.mvcLayer.repository;
 
-import com.example.springmvc.securityLayer.domain.Role;
-import com.example.springmvc.securityLayer.domain.User;
+import com.example.springmvc.mvcLayer.domain.security.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.example.springmvc.mvcLayer.service;
 
-import com.example.springmvc.mvcLayer.domain.productMarket.Product;
+import com.example.springmvc.mvcLayer.domain.Product;
 import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import org.springframework.data.domain.Page;

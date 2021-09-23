@@ -1,8 +1,8 @@
-package com.example.springmvc.securityLayer.service.impl;
+package com.example.springmvc.mvcLayer.service.impl.security;
 
-import com.example.springmvc.securityLayer.domain.Role;
-import com.example.springmvc.securityLayer.repository.RoleRepository;
-import com.example.springmvc.securityLayer.service.RoleService;
+import com.example.springmvc.mvcLayer.domain.security.Role;
+import com.example.springmvc.mvcLayer.repository.RoleRepository;
+import com.example.springmvc.mvcLayer.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

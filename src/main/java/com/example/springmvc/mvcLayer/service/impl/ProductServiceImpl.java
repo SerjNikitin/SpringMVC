@@ -1,7 +1,7 @@
 package com.example.springmvc.mvcLayer.service.impl;
 
 import com.example.springmvc.mvcLayer.converter.ProductConverter;
-import com.example.springmvc.mvcLayer.domain.productMarket.Product;
+import com.example.springmvc.mvcLayer.domain.Product;
 import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import com.example.springmvc.mvcLayer.repository.ProductRepository;

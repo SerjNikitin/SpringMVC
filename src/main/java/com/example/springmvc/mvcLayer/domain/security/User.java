@@ -1,4 +1,4 @@
-package com.example.springmvc.securityLayer.domain;
+package com.example.springmvc.mvcLayer.domain.security;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Data

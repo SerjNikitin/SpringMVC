@@ -1,7 +1,7 @@
-package com.example.springmvc.securityLayer.service.impl;
+package com.example.springmvc.mvcLayer.service.impl.security;
 
-import com.example.springmvc.securityLayer.domain.Role;
-import com.example.springmvc.securityLayer.repository.UserRepository;
+import com.example.springmvc.mvcLayer.domain.security.Role;
+import com.example.springmvc.mvcLayer.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.springmvc.securityLayer.domain.User user = userRepository.findByUsername(username)
+        com.example.springmvc.mvcLayer.domain.security.User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return new User(
                 user.getUsername(), user.getPassword(),

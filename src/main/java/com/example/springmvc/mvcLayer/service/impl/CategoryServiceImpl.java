@@ -1,6 +1,6 @@
 package com.example.springmvc.mvcLayer.service.impl;
 
-import com.example.springmvc.mvcLayer.domain.productMarket.Category;
+import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.repository.CategoryRepository;
 import com.example.springmvc.mvcLayer.service.CategoryService;
 import lombok.AllArgsConstructor;

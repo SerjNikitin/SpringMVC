@@ -1,7 +1,7 @@
-package com.example.springmvc.securityLayer.controller;
+package com.example.springmvc.mvcLayer.controller;
 
-import com.example.springmvc.securityLayer.domain.User;
-import com.example.springmvc.securityLayer.service.UserService;
+import com.example.springmvc.mvcLayer.domain.security.User;
+import com.example.springmvc.mvcLayer.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

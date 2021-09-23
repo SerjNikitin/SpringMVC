@@ -1,7 +1,6 @@
 package com.example.springmvc.mvcLayer.controller;
 
-import com.example.springmvc.mvcLayer.domain.productMarket.Category;
-import com.example.springmvc.mvcLayer.domain.productMarket.Product;
+import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

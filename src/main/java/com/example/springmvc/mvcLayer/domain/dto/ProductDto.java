@@ -1,6 +1,6 @@
 package com.example.springmvc.mvcLayer.domain.dto;
 
-import com.example.springmvc.mvcLayer.domain.productMarket.Category;
+import com.example.springmvc.mvcLayer.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,11 +1,11 @@
-package com.example.springmvc.mvcLayer.sessionItem;
+package com.example.springmvc.mvcLayer.controller.advice;
 
 import com.example.springmvc.mvcLayer.component.ShoppingCart;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
-public class Cart {
+public class GlobalCart {
 
     @ModelAttribute("shoppingCart")
     public ShoppingCart shoppingCart() {
