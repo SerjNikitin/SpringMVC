@@ -29,3 +29,11 @@ values ('ROLE_USER'),
        ('ROLE_MANAGER'),
        ('ROLE_ADMIN');
 
+INSERT INTO public.users (id, username, password, email, enabled) VALUES (2, 'ggg', '$2a$08$2RO4rUMaLLW4z4aFpSqchelNnPgJp4T/1OAvEvALpkDbQvD7eavxe', 'ggg@ggg', true);
+INSERT INTO public.users (id, username, password, email, enabled) VALUES (3, 'fff', '$2a$08$JYwknbmooZXl5a.Yb8ABbeNGMX/sKyIe0PgvwN9fYilcYeGzPLLD.', 'fff@fff', true);
+INSERT INTO public.users (id, username, password, email, enabled) VALUES (5, 'rrr', '$2a$08$OstLi7a0.S0FC1nERZsC8uuU0pbGQPWRVmkel.DFaNWUcm08KeWOy', 'rrr@rrr', true);
+
+INSERT INTO public.user_role (user_id, role_id) VALUES (2, 3);
+INSERT INTO public.user_role (user_id, role_id) VALUES (3, 1);
+INSERT INTO public.user_role (user_id, role_id) VALUES (5, 1);
+
