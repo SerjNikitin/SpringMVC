@@ -1,10 +1,12 @@
 package com.example.springmvc.mvcLayer.service.impl;
 
-import com.example.springmvc.mvcLayer.converter.ProductConverter;
+import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.domain.Product;
 import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
+import com.example.springmvc.mvcLayer.repository.CategoryRepository;
 import com.example.springmvc.mvcLayer.repository.ProductRepository;
+import com.example.springmvc.mvcLayer.service.CategoryService;
 import com.example.springmvc.mvcLayer.service.ProductService;
 import com.example.springmvc.mvcLayer.utils.FileUtils;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,9 @@ import java.util.stream.IntStream;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
+
 
     @Override
     @Transactional
@@ -44,12 +49,18 @@ public class ProductServiceImpl implements ProductService {
     private Product convertProductDtoInProduct(ProductDto productDto) {
         Integer id = productDto.getId();
         if (id != null) {
-            Product product = findProductById(id).get();
+            Product product = dtoProductConvertToProduct(productDto);
             product.setId(productDto.getId());
-            return ProductConverter.dtoProductConvertToProduct(productDto, product);
+            return product;
         }
-        Product product = new Product();
-        return ProductConverter.dtoProductConvertToProduct(productDto, product);
+        return dtoProductConvertToProduct(productDto);
+    }
+
+    private Product dtoProductConvertToProduct(ProductDto productDto) {
+        return Product.builder().title(productDto.getTitle())
+                .price(productDto.getPrice())
+                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
+                .build();
     }
 
     @Override
@@ -61,12 +72,28 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto findProductDtoById(Integer id) {
         Optional<Product> productById = findProductById(id);
-        return ProductConverter.productConvertToDtoProduct(productById.get());
+        return productConvertToDTOProduct(productById.get());
+    }
+
+    private ProductDto productConvertToDTOProduct(Product entity) {
+        return ProductDto.builder().id(entity.getId())
+                .title(entity.getTitle())
+                .price(entity.getPrice())
+                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
+                .build();
     }
 
     @Override
     public void deleteProductById(Integer id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Page<Product> findProductsByCategoryId(Integer catId, ProductSearchCondition searchCondition) {
+        Optional<Category> byId = categoryRepository.findById(catId);
+        Pageable pageable = getPageable(searchCondition);
+        return productRepository.findProductsByCategories(pageable, byId.get());
     }
 
     @Override
@@ -76,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Pageable getPageable(ProductSearchCondition searchCondition) {
-        return PageRequest.of(searchCondition.getPageNum()-1,
+        return PageRequest.of(searchCondition.getPageNum() - 1,
                 searchCondition.getPageSize(),
                 Sort.by(searchCondition.getSortDirection(), searchCondition.getSortField()));
     }
@@ -91,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
             maxPrice = Integer.MAX_VALUE;
         }
         Pageable pageRequest = getPageable(searchCondition);
-        return productRepository.findProductsByTitleContainingIgnoreCaseAndPriceBetween(title,minPrice,maxPrice,pageRequest);
+        return productRepository.findProductsByTitleContainingIgnoreCaseAndPriceBetween(title, minPrice, maxPrice, pageRequest);
     }
 
     @Override

@@ -25,9 +25,9 @@
                     <input class="form-control" id="productName" placeholder="Введите название продукта" size="30" th:field="*{title}" type="text">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="productCategories">Выберите категорию</label>
-                    <select class="form-control" id="productCategories" multiple th:field="*{categories}">
-                        <option th:each="c : ${categories}" th:text="${c.title}" th:value="${c.id}">1</option>
+                    <label class="form-label" for="categoryDto">Выберите категорию</label>
+                    <select class="form-control" id="categoryDto" multiple th:field="*{categoryDto}">
+                        <option th:each="cat : ${categories}" th:text="${cat.title}" th:value="${cat.id}">1</option>
                     </select>
                 </div>
             </div>

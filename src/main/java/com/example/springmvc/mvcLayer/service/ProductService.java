@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface ProductService {
 
+    Page<Product> findProductsByCategoryId(Integer catId,ProductSearchCondition searchCondition);
+
     Page<Product> findAllBySearchConditional(ProductSearchCondition searchCondition);
 
     Product saveProductAndImage(ProductDto product, MultipartFile image);

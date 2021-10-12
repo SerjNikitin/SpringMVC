@@ -8,14 +8,14 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "category")
 @ToString(exclude = {"subCategories"})
 @EqualsAndHashCode(exclude = {"id", "subCategories"})
-@Table(name = "category")
 public class Category {
 
     @Id

@@ -8,14 +8,15 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Data
+@Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "product")
 @ToString(exclude = {"categories"})
 @EqualsAndHashCode(exclude = {"id", "categories"})
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-@Table(name = "product")
 public class Product {
 
     @Id
@@ -46,8 +47,4 @@ public class Product {
         this.title = title;
         this.price = price;
     }
-//    @Override
-//    public String toString() {
-//        return "{" + id + ", " + title + ", " + price + "," + category + "," + image + "}";
-//    }
 }

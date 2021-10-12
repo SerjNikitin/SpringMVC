@@ -1,5 +1,6 @@
 package com.example.springmvc.mvcLayer.repository;
 
+import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.domain.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,9 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    List<Product> findAll();
+    //    List<Product> findAll();
+    Page<Product> findProductsByCategories(Pageable pageable, Category category);
+
 
     Optional<Product> findById(Integer id);
 
@@ -21,5 +24,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findAll(Pageable pageable);
 
     Page<Product> findProductsByTitleContainingIgnoreCaseAndPriceBetween(
-            String title, Integer minPrice, Integer maxPrice,Pageable pageable);
+            String title, Integer minPrice, Integer maxPrice, Pageable pageable);
 }

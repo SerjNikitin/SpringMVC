@@ -9,16 +9,14 @@
 <body>
 <div th:replace="~{fragment/header::header}">Header</div>
 <div class="container">
-<!--    <div th:replace="~{filter/filter::filter}">filter</div>-->
     <div class="row row-cols-auto mt-5 mb-5">
         <div class="card" th:each="category :${categories}" th:object="${category}">
             <div class="card-body">
                 <h5 class="card-title" th:field="*{title}" th:text="*{title}">Card title</h5>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/product/list/{catId}(catId=*{id})}">К продуктам</a>
             </div>
         </div>
     </div>
-
-
     <div th:replace="~{fragment/footer::footer}">Footer</div>
 </div>
 </body>

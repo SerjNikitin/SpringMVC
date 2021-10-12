@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Getter
+
 @Component
 @NoArgsConstructor
 public class ShoppingCart {

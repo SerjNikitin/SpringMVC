@@ -1,9 +1,9 @@
 package com.example.springmvc.mvcLayer.controller;
 
 
-import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.domain.Product;
+import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.service.CategoryService;
 import com.example.springmvc.mvcLayer.service.ProductService;
@@ -26,13 +26,21 @@ import static com.example.springmvc.mvcLayer.domain.constans.ConstanceName.*;
 @RequestMapping(PRODUCT)
 public class ProductController {
 
-    private ProductService productService;
-    private CategoryService categoryService;
+    private final ProductService productService;
+    private final CategoryService categoryService;
 
 
     @GetMapping(LIST)
     public String getListProducts(@ModelAttribute ProductSearchCondition searchCondition, Model model) {
         Page<Product> page = productService.findAllBySearchConditional(searchCondition);
+        productService.pagination(searchCondition, model, page);
+        return "product/list";
+    }
+
+    @GetMapping(LIST + "/{catId}")
+    public String getProductsByCategoryId(@PathVariable Integer catId, Model model) {
+        ProductSearchCondition searchCondition = new ProductSearchCondition();
+        Page<Product> page = productService.findProductsByCategoryId(catId, searchCondition);
         productService.pagination(searchCondition, model, page);
         return "product/list";
     }
@@ -57,10 +65,10 @@ public class ProductController {
                                     @RequestParam(required = false) MultipartFile image) {
         boolean redirectView = getRedirectView(product.getTitle(), product.getPrice(), attributes, image);
         if (redirectView) {
-            return new RedirectView(PRODUCT+FORM);
+            return new RedirectView("/product/form");
         }
         productService.saveProductAndImage(product, image);
-        return new RedirectView(PRODUCT+LIST);
+        return new RedirectView("/product/list");
     }
 
     @ExceptionHandler(Exception.class)
@@ -71,8 +79,8 @@ public class ProductController {
 
     @GetMapping(DELETE)
     public RedirectView deleteProductById(@RequestParam Integer id) {
-                productService.deleteProductById(id);
-        return new RedirectView(PRODUCT+LIST);
+        productService.deleteProductById(id);
+        return new RedirectView("/product/list");
     }
 
     @GetMapping(FILTER)
@@ -91,7 +99,7 @@ public class ProductController {
             attributes.addFlashAttribute("error", "Заполните поле с названием продукта");
             return true;
         }
-        if (price==null) {
+        if (price == null) {
             attributes.addFlashAttribute("error", "Заполните поле с ценой продукта");
             return true;
         }

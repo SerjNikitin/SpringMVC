@@ -7,8 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -28,5 +27,17 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryByTitle.isEmpty()) {
             categoryRepository.save(new Category(title));
         }
+    }
+
+    @Override
+    public Set<Category> findCategoryById(Set<Integer> id) {
+        return categoryRepository.findCategoryByIdIn(id);
+    }
+
+    @Override
+    public Set<Integer> getCategoryIdList(Set<Category> categories) {
+        Set<Integer> ids = new HashSet<>();
+        categories.forEach(category -> ids.add(category.getId()));
+        return ids;
     }
 }
