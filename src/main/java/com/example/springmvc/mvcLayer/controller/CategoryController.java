@@ -38,7 +38,7 @@ public class CategoryController {
 
     @GetMapping(LIST)
     public String findAllCategory(Model model) {
-        List<Category> categories = categoryService.findCategory();
+        List<Category> categories = categoryService.findCategories();
         model.addAttribute("categories", categories);
         return "category/list";
     }

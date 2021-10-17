@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,5 +56,4 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getAllOrders(String name) {
         return orderRepository.findOrdersByUserId_Username(name);
     }
-
 }

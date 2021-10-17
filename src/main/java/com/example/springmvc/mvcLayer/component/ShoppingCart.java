@@ -1,6 +1,8 @@
 package com.example.springmvc.mvcLayer.component;
 
 import com.example.springmvc.mvcLayer.domain.cart.CartItem;
+import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
+import com.example.springmvc.mvcLayer.service.ProductService;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,18 +17,38 @@ public class ShoppingCart {
     private final Map<Integer, CartItem> cartItems = new HashMap<>();
     private Integer totalPrice = 0;
 
-    public void addCartItem(CartItem cartItem) {
-        Integer productId = cartItem.getProduct().getId();
-        if (cartItems.containsKey(productId)) {
-            cartItems.get(productId).increaseCount();
+    public void addCartItem(ProductDto productDto) {
+        Integer id = productDto.getId();
+        if (cartItems.containsKey(id)) {
+            cartItems.get(id).increaseCount();
+        } else {
+            cartItems.put(id, new CartItem(productDto));
         }
-        cartItems.put(productId, cartItem);
         updateTotalPrice();
     }
 
-    public void deleteCartItem(Integer productId) {
-        cartItems.remove(productId);
-        updateTotalPrice();
+
+//    public void addCartItem(CartItem cartItem) {
+//        Integer productId = cartItem.getProduct().getId();
+//        if (cartItems.containsKey(productId)) {
+//            cartItems.get(productId).increaseCount();
+////            cartItem.increaseCount();
+//        }
+//        cartItems.put(productId, cartItem);
+//        updateTotalPrice();
+//        System.err.println(cartItem.getCount()+"   "+cartItems.size());
+//    }
+
+    public Boolean deleteCartItem(Integer productId) {
+        if (cartItems.containsKey(productId)) {
+            if (cartItems.get(productId).getCount() == 1) {
+                cartItems.remove(productId);
+            } else {
+                cartItems.get(productId).reduceCount();
+            }
+            updateTotalPrice();
+            return true;
+        } else return false;
     }
 
     public void addSameItem(Integer productId) {

@@ -1,7 +1,6 @@
 package com.example.springmvc.mvcLayer.controller;
 
 import com.example.springmvc.mvcLayer.component.ShoppingCart;
-import com.example.springmvc.mvcLayer.domain.cart.CartItem;
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import com.example.springmvc.mvcLayer.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
 
 @Controller
 @SessionAttributes("shoppingCart")
@@ -29,25 +27,38 @@ public class ShoppingCartController {
     @GetMapping("/add-to-cart")
     public RedirectView addProductToCart(Integer id, @ModelAttribute ShoppingCart shoppingCart) {
         ProductDto productDto = productService.findProductDtoById(id);
-        shoppingCart.addCartItem(new CartItem(productDto));
+        if (productDto.getCountProduct() > 0) {
+            shoppingCart.addCartItem(productDto);
+            productService.updateCountInProduct(productDto.getId(), (productDto.getCountProduct() - 1));
+        }
         return new RedirectView("/product/list");
     }
 
     @GetMapping("/delete-from-cart")
     public RedirectView deleteProductFromCart(Integer id, @ModelAttribute ShoppingCart shoppingCart) {
-        shoppingCart.deleteCartItem(id);
+        Boolean isPresents = shoppingCart.deleteCartItem(id);
+        if (isPresents){
+            ProductDto productDto = productService.findProductDtoById(id);
+            productService.updateCountInProduct(id, (productDto.getCountProduct() + 1));
+        }
         return new RedirectView("/product/list");
     }
 
     @GetMapping("/plus-one")
     public RedirectView addSameItem(Integer id, @ModelAttribute ShoppingCart shoppingCart) {
-        shoppingCart.addSameItem(id);
+        ProductDto productDto = productService.findProductDtoById(id);
+        if (productDto.getCountProduct() > 0) {
+            shoppingCart.addSameItem(id);
+            productService.updateCountInProduct(productDto.getId(), (productDto.getCountProduct() - 1));
+        }
         return new RedirectView("/cart");
     }
 
     @GetMapping("/minus-one")
     public RedirectView deleteSameItem(Integer id, @ModelAttribute ShoppingCart shoppingCart) {
         shoppingCart.deleteSameItem(id);
+        ProductDto productDto = productService.findProductDtoById(id);
+        productService.updateCountInProduct(id, (productDto.getCountProduct() + 1));
         return new RedirectView("/cart");
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Page<Product> findProductsByCategoryId(Integer catId,ProductSearchCondition searchCondition);
+    Page<Product> findProductsByCategoryId(Integer catId, ProductSearchCondition searchCondition);
 
     Page<Product> findAllBySearchConditional(ProductSearchCondition searchCondition);
 
@@ -27,4 +27,9 @@ public interface ProductService {
             ProductSearchCondition searchCondition, String title, Integer minPrice, Integer maxPrice);
 
     void pagination(ProductSearchCondition searchCondition, Model model, Page<Product> page);
+
+
+    void updateCountInProduct(Integer id, Integer count);
+
+//    void plusCountProduct(Integer productId);
 }

@@ -30,13 +30,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
-    private final CategoryRepository categoryRepository;
+//    private final CategoryRepository categoryRepository;
 
 
     @Override
     @Transactional
     public Product saveProductAndImage(ProductDto productDto, MultipartFile image) {
-        Product product = convertProductDtoInProduct(productDto);
+        Product product = choosingActionOrCreatingOrUpdating(productDto);
         Product savedProduct = productRepository.save(product);
         if (image != null && !image.isEmpty()) {
             Path pathImage = FileUtils.saveProductImage(image);
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct;
     }
 
-    private Product convertProductDtoInProduct(ProductDto productDto) {
+    private Product choosingActionOrCreatingOrUpdating(ProductDto productDto) {
         Integer id = productDto.getId();
         if (id != null) {
             Product product = dtoProductConvertToProduct(productDto);
@@ -60,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
         return Product.builder().title(productDto.getTitle())
                 .price(productDto.getPrice())
                 .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
+                .countProduct(productDto.getCountProduct())
                 .build();
     }
 
@@ -69,10 +70,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public ProductDto findProductDtoById(Integer id) {
         Optional<Product> productById = findProductById(id);
-        return productConvertToDTOProduct(productById.get());
+        if (productById.isPresent()) {
+            return productConvertToDTOProduct(productById.get());
+        } else throw new NoSuchElementException("Продукт был удален администратором");
+    }
+
+//    @Override
+//    @Transactional
+//    public void minusOneProductInCount(Integer id, Integer count) {
+////        Optional<Product> byId = productRepository.findById(id);
+////        byId.ifPresent(product -> productRepository.updateCount(product, count));
+//        productRepository.updateCount(id, count);
+//    }
+
+//    @Override
+//    @Transactional
+//    public void plusCountProduct(Integer productId) {
+//        Optional<Product> byId = productRepository.findById(productId);
+//        Integer countProduct = byId.get().getCountProduct()+1;
+//        productRepository.updateCount(productId, countProduct);
+////        productRepository.plusCount(productId);
+//    }
+
+    @Override
+    @Transactional
+    public void updateCountInProduct(Integer id, Integer count) {
+        productRepository.updateCount(id, count);
     }
 
     private ProductDto productConvertToDTOProduct(Product entity) {
@@ -80,6 +105,7 @@ public class ProductServiceImpl implements ProductService {
                 .title(entity.getTitle())
                 .price(entity.getPrice())
                 .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
+                .countProduct(entity.getCountProduct())
                 .build();
     }
 
@@ -91,9 +117,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Page<Product> findProductsByCategoryId(Integer catId, ProductSearchCondition searchCondition) {
-        Optional<Category> byId = categoryRepository.findById(catId);
+        Optional<Category> category = categoryService.findCategory(catId);
+//        Optional<Category> byId = categoryRepository.findById(catId);
         Pageable pageable = getPageable(searchCondition);
-        return productRepository.findProductsByCategories(pageable, byId.get());
+        return productRepository.findProductsByCategories(pageable, category.get());
     }
 
     @Override
