@@ -27,18 +27,6 @@ public class ShoppingCart {
         updateTotalPrice();
     }
 
-
-//    public void addCartItem(CartItem cartItem) {
-//        Integer productId = cartItem.getProduct().getId();
-//        if (cartItems.containsKey(productId)) {
-//            cartItems.get(productId).increaseCount();
-////            cartItem.increaseCount();
-//        }
-//        cartItems.put(productId, cartItem);
-//        updateTotalPrice();
-//        System.err.println(cartItem.getCount()+"   "+cartItems.size());
-//    }
-
     public Boolean deleteCartItem(Integer productId) {
         if (cartItems.containsKey(productId)) {
             if (cartItems.get(productId).getCount() == 1) {
