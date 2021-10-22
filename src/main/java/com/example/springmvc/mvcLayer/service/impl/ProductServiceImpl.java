@@ -2,13 +2,12 @@ package com.example.springmvc.mvcLayer.service.impl;
 
 import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.domain.Product;
-import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
-import com.example.springmvc.mvcLayer.repository.CategoryRepository;
+import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.repository.ProductRepository;
 import com.example.springmvc.mvcLayer.service.CategoryService;
+import com.example.springmvc.mvcLayer.service.FileService;
 import com.example.springmvc.mvcLayer.service.ProductService;
-import com.example.springmvc.mvcLayer.utils.FileUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,8 +32,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
-//    private final CategoryRepository categoryRepository;
-
+    private final FileService fileService;
 
     @Override
     @Transactional
@@ -39,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = choosingActionOrCreatingOrUpdating(productDto);
         Product savedProduct = productRepository.save(product);
         if (image != null && !image.isEmpty()) {
-            Path pathImage = FileUtils.saveProductImage(image);
+            Path pathImage = fileService.saveProductImage(image);
             savedProduct.setImage(pathImage.toString());
             productRepository.save(savedProduct);
         }
