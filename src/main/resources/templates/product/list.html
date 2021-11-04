@@ -36,6 +36,16 @@
                             <button class="btn btn-outline-success" type="submit">Убрать</button>
                         </form>
                 </div>
+                <div class="d-flex justify-content-md-around justify-content-sm-around justify-content-xs-between">
+                    <form th:action="@{/review}" th:method="get">
+                        <input th:name="id" th:value="${product.id}" type="hidden">
+                        <button class="btn btn-outline-success" type="submit">Отзывы</button>
+                    </form>
+                    <form th:action="@{/review/form}" th:method="get" sec:authorize="hasAnyRole('ROLE_ADMIN' , 'ROLE_MANAGER' , 'ROLE_USER')">
+                        <input th:name="id" th:value="${product.id}" type="hidden">
+                        <button class="btn btn-outline-success" type="submit">Оставить отзыв</button>
+                    </form>
+                </div>
 
             </div>
         </div>

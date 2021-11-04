@@ -8,7 +8,9 @@ import com.example.springmvc.mvcLayer.repository.ProductRepository;
 import com.example.springmvc.mvcLayer.service.CategoryService;
 import com.example.springmvc.mvcLayer.service.FileService;
 import com.example.springmvc.mvcLayer.service.ProductService;
+import com.example.springmvc.mvcLayer.service.ReviewService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final FileService fileService;
+    private final ReviewService reviewService;
+
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -58,11 +63,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product dtoProductConvertToProduct(ProductDto productDto) {
-        return Product.builder().title(productDto.getTitle())
-                .price(productDto.getPrice())
-                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
-                .countProduct(productDto.getCountProduct())
-                .build();
+        Product product = modelMapper.map(productDto, Product.class);
+        product.setCategories(categoryService.findCategoryById(productDto.getCategoryDto()));
+        return product;
+//        return Product.builder().title(productDto.getTitle())
+//                .price(productDto.getPrice())
+//                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
+//                .countProduct(productDto.getCountProduct())
+//                .build();
     }
 
     @Override
@@ -102,16 +110,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductDto productConvertToDTOProduct(Product entity) {
-        return ProductDto.builder().id(entity.getId())
-                .title(entity.getTitle())
-                .price(entity.getPrice())
-                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
-                .countProduct(entity.getCountProduct())
-                .build();
+        ProductDto productDto = modelMapper.map(entity, ProductDto.class);
+        productDto.setCategoryDto(categoryService.getCategoryIdList(entity.getCategories()));
+        System.err.println(productDto.getCategoryDto().toString());
+        return productDto;
+//        return ProductDto.builder().id(entity.getId())
+//                .title(entity.getTitle())
+//                .price(entity.getPrice())
+//                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
+//                .countProduct(entity.getCountProduct())
+//                .build();
     }
 
     @Override
+    @Transactional
     public void deleteProductById(Integer id) {
+        reviewService.deleteAllReviewByProductId(id);
         productRepository.deleteById(id);
     }
 
@@ -119,7 +133,6 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Page<Product> findProductsByCategoryId(Integer catId, ProductSearchCondition searchCondition) {
         Optional<Category> category = categoryService.findCategory(catId);
-//        Optional<Category> byId = categoryRepository.findById(catId);
         Pageable pageable = getPageable(searchCondition);
         return productRepository.findProductsByCategories(pageable, category.get());
     }

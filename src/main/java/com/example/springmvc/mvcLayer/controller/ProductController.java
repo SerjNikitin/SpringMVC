@@ -52,8 +52,8 @@ public class ProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("error", error);
         if (id != null) {
-            ProductDto productDtoById = productService.findProductDtoById(id);
-            model.addAttribute("product", productDtoById);
+            ProductDto productDto = productService.findProductDtoById(id);
+            model.addAttribute("product", productDto);
         } else {
             model.addAttribute("product", new ProductDto());
         }

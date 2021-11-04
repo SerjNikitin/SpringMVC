@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>productReview</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragment/header::header}">Header</div>
+<div class="container my-4">
+
+    <div class="row mb-2 mt-2">
+
+        <div class="col-md-12">
+
+            <table class="table">
+
+                <thead class="table-info">
+                <tr>
+                    <th>Имя пользователя</th>
+                    <th>Комментарий</th>
+                    <th>Рейтинг</th>
+                    <th>Дата</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="align-middle" th:each="review : ${reviewList}">
+                    <td th:text="${review.user.username}"></td>
+                    <td th:text="${review.review}"></td>
+                    <td th:text="${review.rating}"></td>
+                    <td th:text="${review.dateCreate}"></td>
+                    <td>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3">
+                                <form method="get" th:action="@{/review/delete}"
+                                      sec:authorize="hasAnyRole('ROLE_ADMIN' , 'ROLE_MANAGER')">
+                                    <input th:name="id" th:value="${review.id}" type="hidden">
+                                    <button class="btn btn-outline-danger btn-sm" type="submit">Удалить комментарий
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
