@@ -28,8 +28,5 @@ public interface ProductService {
 
     void pagination(ProductSearchCondition searchCondition, Model model, Page<Product> page);
 
-
     void updateCountInProduct(Integer id, Integer count);
-
-//    void plusCountProduct(Integer productId);
 }
