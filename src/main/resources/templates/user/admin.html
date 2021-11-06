@@ -34,6 +34,19 @@
                     <a th:if="${user.enabled}" th:href="@{/user/enable(userId=${user.id},enable=false)}" href="#" class="btn btn-primary">Заблокировать</a>
                     <a th:unless="${user.enabled}" th:href="@{/user/enable(userId=${user.id},enable=true)}" href="#" class="btn btn-primary">Активировать</a>
                 </td>
+<!--                <td>-->
+<!--                    <div class="row d-flex justify-content-center">-->
+<!--                        <div class="col-3">-->
+<!--                            <form method="get" th:action="@{/order/list}">-->
+<!--                                  sec:authorize="hasAnyRole('ROLE_ADMIN' , 'ROLE_MANAGER')">-->
+<!--                                <input th:name="id" th:value="${user.}" type="hidden">-->
+<!--                                <button class="btn btn-outline-danger btn-sm" type="submit">Удалить комментарий-->
+<!--                                </button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+
             </tr>
             </tbody>
         </table>

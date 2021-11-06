@@ -35,8 +35,8 @@ public class Order implements Serializable {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User userId;
 
     @Type(type = "jsonb")

@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.springmvc.mvcLayer.domain.constans.ConstanceName.FORM;
-import static com.example.springmvc.mvcLayer.domain.constans.ConstanceName.LIST;
+import static com.example.springmvc.mvcLayer.domain.constans.ConstanceName.*;
 
 @Controller
 @AllArgsConstructor
 @SessionAttributes("shoppingCart")
-@RequestMapping("/order")
+@RequestMapping(ORDER)
 public class OrderController {
 
     private final OrderService orderService;
@@ -44,4 +43,10 @@ public class OrderController {
         orderService.save(shoppingCart, address, name);
         return "redirect:/order/list";
     }
+
+//    @PostMapping(FORM)
+//    public String updateStatusOrder(@ModelAttribute Address address) {
+//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+//        return "redirect:/order/list";
+//    }
 }

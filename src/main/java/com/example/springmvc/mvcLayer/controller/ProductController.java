@@ -48,12 +48,12 @@ public class ProductController {
     @GetMapping(FORM)
     public String getProductForm(Model model, @RequestParam(required = false) Integer id,
                                  @ModelAttribute("error") String error) {
-        List<Category> categories = categoryService.findCategory();
+        List<Category> categories = categoryService.findCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("error", error);
         if (id != null) {
-            ProductDto productDtoById = productService.findProductDtoById(id);
-            model.addAttribute("product", productDtoById);
+            ProductDto productDto = productService.findProductDtoById(id);
+            model.addAttribute("product", productDto);
         } else {
             model.addAttribute("product", new ProductDto());
         }

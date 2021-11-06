@@ -2,14 +2,15 @@ package com.example.springmvc.mvcLayer.service.impl;
 
 import com.example.springmvc.mvcLayer.domain.Category;
 import com.example.springmvc.mvcLayer.domain.Product;
-import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
-import com.example.springmvc.mvcLayer.repository.CategoryRepository;
+import com.example.springmvc.mvcLayer.domain.search.ProductSearchCondition;
 import com.example.springmvc.mvcLayer.repository.ProductRepository;
 import com.example.springmvc.mvcLayer.service.CategoryService;
+import com.example.springmvc.mvcLayer.service.FileService;
 import com.example.springmvc.mvcLayer.service.ProductService;
-import com.example.springmvc.mvcLayer.utils.FileUtils;
+import com.example.springmvc.mvcLayer.service.ReviewService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,23 +34,25 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
-    private final CategoryRepository categoryRepository;
+    private final FileService fileService;
+    private final ReviewService reviewService;
 
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     public Product saveProductAndImage(ProductDto productDto, MultipartFile image) {
-        Product product = convertProductDtoInProduct(productDto);
+        Product product = choosingActionOrCreatingOrUpdating(productDto);
         Product savedProduct = productRepository.save(product);
         if (image != null && !image.isEmpty()) {
-            Path pathImage = FileUtils.saveProductImage(image);
+            Path pathImage = fileService.saveProductImage(image);
             savedProduct.setImage(pathImage.toString());
             productRepository.save(savedProduct);
         }
         return savedProduct;
     }
 
-    private Product convertProductDtoInProduct(ProductDto productDto) {
+    private Product choosingActionOrCreatingOrUpdating(ProductDto productDto) {
         Integer id = productDto.getId();
         if (id != null) {
             Product product = dtoProductConvertToProduct(productDto);
@@ -57,10 +63,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product dtoProductConvertToProduct(ProductDto productDto) {
-        return Product.builder().title(productDto.getTitle())
-                .price(productDto.getPrice())
-                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
-                .build();
+        Product product = modelMapper.map(productDto, Product.class);
+        product.setCategories(categoryService.findCategoryById(productDto.getCategoryDto()));
+        return product;
+//        return Product.builder().title(productDto.getTitle())
+//                .price(productDto.getPrice())
+//                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
+//                .countProduct(productDto.getCountProduct())
+//                .build();
     }
 
     @Override
@@ -69,31 +79,62 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public ProductDto findProductDtoById(Integer id) {
         Optional<Product> productById = findProductById(id);
-        return productConvertToDTOProduct(productById.get());
+        if (productById.isPresent()) {
+            return productConvertToDTOProduct(productById.get());
+        } else throw new NoSuchElementException("Продукт был удален администратором");
+    }
+
+//    @Override
+//    @Transactional
+//    public void minusOneProductInCount(Integer id, Integer count) {
+////        Optional<Product> byId = productRepository.findById(id);
+////        byId.ifPresent(product -> productRepository.updateCount(product, count));
+//        productRepository.updateCount(id, count);
+//    }
+
+//    @Override
+//    @Transactional
+//    public void plusCountProduct(Integer productId) {
+//        Optional<Product> byId = productRepository.findById(productId);
+//        Integer countProduct = byId.get().getCountProduct()+1;
+//        productRepository.updateCount(productId, countProduct);
+////        productRepository.plusCount(productId);
+//    }
+
+    @Override
+    @Transactional
+    public void updateCountInProduct(Integer id, Integer count) {
+        productRepository.updateCount(id, count);
     }
 
     private ProductDto productConvertToDTOProduct(Product entity) {
-        return ProductDto.builder().id(entity.getId())
-                .title(entity.getTitle())
-                .price(entity.getPrice())
-                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
-                .build();
+        ProductDto productDto = modelMapper.map(entity, ProductDto.class);
+        productDto.setCategoryDto(categoryService.getCategoryIdList(entity.getCategories()));
+        System.err.println(productDto.getCategoryDto().toString());
+        return productDto;
+//        return ProductDto.builder().id(entity.getId())
+//                .title(entity.getTitle())
+//                .price(entity.getPrice())
+//                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
+//                .countProduct(entity.getCountProduct())
+//                .build();
     }
 
     @Override
+    @Transactional
     public void deleteProductById(Integer id) {
+        reviewService.deleteAllReviewByProductId(id);
         productRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public Page<Product> findProductsByCategoryId(Integer catId, ProductSearchCondition searchCondition) {
-        Optional<Category> byId = categoryRepository.findById(catId);
+        Optional<Category> category = categoryService.findCategory(catId);
         Pageable pageable = getPageable(searchCondition);
-        return productRepository.findProductsByCategories(pageable, byId.get());
+        return productRepository.findProductsByCategories(pageable, category.get());
     }
 
     @Override

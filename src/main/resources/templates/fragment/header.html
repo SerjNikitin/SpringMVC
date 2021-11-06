@@ -38,8 +38,6 @@
                    th:href="@{/user/registration}">Регистрация</a>
                 <a class="nav-link" href="#" sec:authorize="hasAnyRole('ROLE_ADMIN' , 'ROLE_MANAGER' , 'ROLE_USER')"
                    th:href="@{/user/account}">ЛК</a>
-                <!--                /(id=${id})-->
-
                 <a class="nav-link" href="#" th:href="@{/cart}">Корзина</a>
             </ul>
         </div>

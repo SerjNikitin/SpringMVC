@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static com.example.springmvc.mvcLayer.domain.constans.ConstanceName.*;
+
 @Controller
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping(USER)
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/admin")
+    @GetMapping(ADMIN)
     public String getAllUsers(@RequestParam(required = false) Integer pageNum, Model model) {
         final int pageSize = 5;
         Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);
@@ -30,29 +32,31 @@ public class UserController {
         return "user/admin";
     }
 
-    @GetMapping("/registration")
+    @GetMapping(REGISTRATION)
     public String createModelRegistration(Model model) {
         model.addAttribute("user", new User());
         return "user/registration";
     }
 
-    @PostMapping("/registration")
+    @PostMapping(REGISTRATION)
     public String registrationUser(User user) {
         userService.saveUser(user);
         return "redirect:/login";
     }
 
-    @GetMapping("/enable")
+    @GetMapping(ENABLE)
     public String setEnableUser(@RequestParam Long userId, @RequestParam Boolean enable) {
         userService.setEnable(userId, enable);
         return "redirect:/user/admin";
     }
 
-    @GetMapping("/account")
+    @GetMapping(ACCOUNT)
     public String getUserAccount(Model model) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUsername(name);
         model.addAttribute("user", user);
         return "user/personalAccount";
     }
+
+
 }

@@ -4,7 +4,6 @@ import com.example.springmvc.mvcLayer.domain.dto.ProductDto;
 import lombok.Getter;
 
 @Getter
-//@AllArgsConstructor
 public class CartItem {
     private final ProductDto product;
     private Integer count;

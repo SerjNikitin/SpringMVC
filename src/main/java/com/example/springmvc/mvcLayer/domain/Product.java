@@ -35,6 +35,9 @@ public class Product {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "count_product")
+    private Integer countProduct;
+
     @ManyToMany
     @JoinTable(
             name = "product_category",

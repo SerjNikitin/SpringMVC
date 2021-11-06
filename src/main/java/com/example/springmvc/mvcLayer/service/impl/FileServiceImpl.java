@@ -1,5 +1,7 @@
-package com.example.springmvc.mvcLayer.utils;
+package com.example.springmvc.mvcLayer.service.impl;
 
+import com.example.springmvc.mvcLayer.service.FileService;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -7,16 +9,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
-public class FileUtils {
+@Service
+public class FileServiceImpl implements FileService {
 
     private static final String IMAGE_FOLDER_PATH = "/data/images";
     private static final String PRODUCT_IMAGE_FOLDER_PATH = IMAGE_FOLDER_PATH + "/product";
 
-    private FileUtils() {
+    private FileServiceImpl() {
     }
 
-    public static Path saveProductImage(MultipartFile imageFile) {
+    @Override
+    public Path saveProductImage(MultipartFile imageFile) {
         if (imageFile == null) {
             throw new IllegalArgumentException("Image file can not be null!");
         }
@@ -29,7 +32,7 @@ public class FileUtils {
         return savePath;
     }
 
-    private static void createDirectories(Path path) {
+    private void createDirectories(Path path) {
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
@@ -37,7 +40,7 @@ public class FileUtils {
         }
     }
 
-    private static void saveFile(MultipartFile file, Path path) {
+    private void saveFile(MultipartFile file, Path path) {
         try {
             file.transferTo(path);
         } catch (IOException e) {
