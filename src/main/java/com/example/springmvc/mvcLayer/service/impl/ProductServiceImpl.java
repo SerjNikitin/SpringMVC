@@ -10,7 +10,6 @@ import com.example.springmvc.mvcLayer.service.FileService;
 import com.example.springmvc.mvcLayer.service.ProductService;
 import com.example.springmvc.mvcLayer.service.ReviewService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,8 +36,6 @@ public class ProductServiceImpl implements ProductService {
     private final FileService fileService;
     private final ReviewService reviewService;
 
-    private final ModelMapper modelMapper;
-
     @Override
     @Transactional
     public Product saveProductAndImage(ProductDto productDto, MultipartFile image) {
@@ -63,14 +60,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product dtoProductConvertToProduct(ProductDto productDto) {
-        Product product = modelMapper.map(productDto, Product.class);
-        product.setCategories(categoryService.findCategoryById(productDto.getCategoryDto()));
-        return product;
-//        return Product.builder().title(productDto.getTitle())
-//                .price(productDto.getPrice())
-//                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
-//                .countProduct(productDto.getCountProduct())
-//                .build();
+        return Product.builder().title(productDto.getTitle())
+                .price(productDto.getPrice())
+                .categories(categoryService.findCategoryById(productDto.getCategoryDto()))
+                .countProduct(productDto.getCountProduct())
+                .build();
     }
 
     @Override
@@ -86,23 +80,6 @@ public class ProductServiceImpl implements ProductService {
         } else throw new NoSuchElementException("Продукт был удален администратором");
     }
 
-//    @Override
-//    @Transactional
-//    public void minusOneProductInCount(Integer id, Integer count) {
-////        Optional<Product> byId = productRepository.findById(id);
-////        byId.ifPresent(product -> productRepository.updateCount(product, count));
-//        productRepository.updateCount(id, count);
-//    }
-
-//    @Override
-//    @Transactional
-//    public void plusCountProduct(Integer productId) {
-//        Optional<Product> byId = productRepository.findById(productId);
-//        Integer countProduct = byId.get().getCountProduct()+1;
-//        productRepository.updateCount(productId, countProduct);
-////        productRepository.plusCount(productId);
-//    }
-
     @Override
     @Transactional
     public void updateCountInProduct(Integer id, Integer count) {
@@ -110,16 +87,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductDto productConvertToDTOProduct(Product entity) {
-        ProductDto productDto = modelMapper.map(entity, ProductDto.class);
-        productDto.setCategoryDto(categoryService.getCategoryIdList(entity.getCategories()));
-        System.err.println(productDto.getCategoryDto().toString());
-        return productDto;
-//        return ProductDto.builder().id(entity.getId())
-//                .title(entity.getTitle())
-//                .price(entity.getPrice())
-//                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
-//                .countProduct(entity.getCountProduct())
-//                .build();
+        return ProductDto.builder().id(entity.getId())
+                .title(entity.getTitle())
+                .price(entity.getPrice())
+                .categoryDto(categoryService.getCategoryIdList(entity.getCategories()))
+                .countProduct(entity.getCountProduct())
+                .build();
     }
 
     @Override

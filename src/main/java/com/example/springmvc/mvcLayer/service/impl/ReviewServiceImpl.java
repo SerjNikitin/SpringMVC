@@ -20,11 +20,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserService userService;
 
     @Override
-    public List<ProductReview> findAllReview() {
-        return reviewRepository.findAll();
-    }
-
-    @Override
     public List<ProductReview> findReviewByProductId(Integer id) {
         return reviewRepository.findProductReviewsByProduct_id(id);
     }

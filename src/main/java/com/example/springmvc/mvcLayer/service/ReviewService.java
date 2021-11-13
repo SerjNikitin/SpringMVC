@@ -5,7 +5,6 @@ import com.example.springmvc.mvcLayer.domain.ProductReview;
 import java.util.List;
 
 public interface ReviewService {
-    List<ProductReview> findAllReview();
 
     List<ProductReview> findReviewByProductId(Integer id);
 

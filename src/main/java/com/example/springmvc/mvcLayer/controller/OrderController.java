@@ -43,10 +43,4 @@ public class OrderController {
         orderService.save(shoppingCart, address, name);
         return "redirect:/order/list";
     }
-
-//    @PostMapping(FORM)
-//    public String updateStatusOrder(@ModelAttribute Address address) {
-//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//        return "redirect:/order/list";
-//    }
 }

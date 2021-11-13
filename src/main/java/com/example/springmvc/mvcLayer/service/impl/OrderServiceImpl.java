@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +24,7 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-
     private final UserService userService;
-
     private final AddressRepository addressRepository;
 
     @Override

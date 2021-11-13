@@ -11,7 +11,6 @@ public interface ReviewRepository extends JpaRepository<ProductReview, Integer> 
 
     List<ProductReview>findProductReviewsByProduct_id(Integer productId);
 
-
     void deleteProductReviewsByProduct_Id(Integer productId);
 
     void deleteProductReviewById(Integer id);

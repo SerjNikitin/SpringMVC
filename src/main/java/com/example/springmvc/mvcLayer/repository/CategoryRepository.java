@@ -12,9 +12,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Optional<Category> findCategoryByTitle(String title);
 
-
     Set<Category> findCategoryByIdIn(Set<Integer> ids);
-
-//    Page<Product> findProductsByIdCategory(Pageable pageable);
-
 }
