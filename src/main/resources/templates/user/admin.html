@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{fragment/header::header}">Header</div>
+<div class="container">
+
+    <h1>Пользователи</h1>
+
+    <div class="container">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Email</th>
+                <th scope="col">Роли</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user,iter : ${page.getContent()}">
+                <th scope="row" th:text="${iter.index + 1}"/>
+                <td th:text="${user.username}"/>
+                <td th:text="${user.email}"/>
+                <td th:text="${#strings.listJoin(user.roles, ' , ')}"/>
+                <td>
+                    <a th:if="${user.enabled}" th:href="@{/user/enable(userId=${user.id},enable=false)}" href="#" class="btn btn-primary">Заблокировать</a>
+                    <a th:unless="${user.enabled}" th:href="@{/user/enable(userId=${user.id},enable=true)}" href="#" class="btn btn-primary">Активировать</a>
+                </td>
+<!--                <td>-->
+<!--                    <div class="row d-flex justify-content-center">-->
+<!--                        <div class="col-3">-->
+<!--                            <form method="get" th:action="@{/order/list}">-->
+<!--                                  sec:authorize="hasAnyRole('ROLE_ADMIN' , 'ROLE_MANAGER')">-->
+<!--                                <input th:name="id" th:value="${user.}" type="hidden">-->
+<!--                                <button class="btn btn-outline-danger btn-sm" type="submit">Удалить комментарий-->
+<!--                                </button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="~{fragment/footer::footer}">
+        Footer
+    </div>
+</div>
+</body>
+</html>

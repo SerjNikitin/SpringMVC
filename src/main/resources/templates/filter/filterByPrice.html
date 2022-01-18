@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>filter</title>
+</head>
+<body>
+<nav class="navbar " th:fragment="filter">
+
+    <div class="row">
+        <form method="get" th:action="@{/product/filter}">
+            <label>
+                <input placeholder="Название товара" th:name="title" type="text">
+            </label>
+            <label>
+                <input placeholder="Стоимость от" th:name="minPrice" type="number">
+            </label>
+            <label>
+                <input placeholder="Стоимость до" th:name="maxPrice" type="number">
+            </label>
+            <button class="btn btn" type="submit">Поиск</button>
+        </form>
+    </div>
+
+</nav>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragment/header::header}">Header</div>
+<div class="container">
+    <div class="row row-cols-auto mt-5 mb-5">
+        <div class="card" th:each="category :${categories}" th:object="${category}">
+            <div class="card-body">
+                <h5 class="card-title" th:field="*{title}" th:text="*{title}">Card title</h5>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/product/list/{catId}(catId=*{id})}">К продуктам</a>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{fragment/footer::footer}">Footer</div>
+</div>
+</body>
+</html>
